@@ -1,44 +1,46 @@
 #include <iostream>
-#include <vector>
-#include <algorithm> // Required for std::upper_bound
-
+#include <iomanip>
 using namespace std;
 
 int main() {
     int n;
     cin >> n;
-
-    vector<int> arr(n);
-    for (int i = 0; i < n; ++i) {
+    float arr[n];
+    
+    for (int i = 0; i < n; i++) {
         cin >> arr[i];
     }
 
-    int x;
-    cin >> x;
+    cout << fixed << setprecision(2);
+    cout << "Initial order: ";
+    for (int i = 0; i < n; i++) {
+        cout << arr[i];
+        if (i != n - 1) cout << " ";
+    }
+    cout << endl;
 
-    // 1. Find the iterator to the first element > x using binary search
-    auto it = upper_bound(arr.begin(), arr.end(), x);
-
-    // Convert iterator to an index
-    int startIndex = it - arr.begin();
-
-    // 2. The first number we are looking for is x + 1
-    int smallestMissing = x + 1;
-
-    // 3. Loop from the startIndex to the end of the array
-    for (int i = startIndex; i < n; ++i) {
-        // If the number we are looking for is in the array...
-        if (arr[i] == smallestMissing) {
-            // ...then we need to look for the next number.
-            smallestMissing++;
-        } else {
-            // Otherwise, we found the first missing number, so we can stop.
-            break;
+    for (int i = 1; i < n; i++) {
+        float key = arr[i];
+        int j = i - 1;
+        while (j >= 0 && arr[j] > key) {
+            arr[j + 1] = arr[j];
+            j--;
         }
+        arr[j + 1] = key;
+
+        cout << "After iteration " << i << ": ";
+        for (int k = 0; k < n; k++) {
+            cout << arr[k];
+            if (k != n - 1) cout << " ";
+        }
+        cout << endl;
     }
 
-    // 4. Print the result
-    cout << smallestMissing << endl;
+    cout << "Sorted order: ";
+    for (int i = 0; i < n; i++) {
+        cout << arr[i];
+        if (i != n - 1) cout << " ";
+    }
 
     return 0;
 }
