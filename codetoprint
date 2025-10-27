@@ -1,38 +1,33 @@
 #include <iostream>
 #include <vector>
+#include <set>
 using namespace std;
 
 int main() {
-    int n;
+    int n, m;
     cin >> n;
-
-    vector<int> arr(n);
+    vector<string> arr1(n);
     for (int i = 0; i < n; i++)
-        cin >> arr[i];
+        cin >> arr1[i];
 
-    cout << "Initial array: ";
-    for (int i = 0; i < n; i++)
-        cout << arr[i] << " ";
-    cout << endl;
+    cin >> m;
+    vector<string> arr2(m);
+    for (int i = 0; i < m; i++)
+        cin >> arr2[i];
+
+    set<string> uniqueCombinations;
 
     for (int i = 0; i < n; i++) {
-        int minIndex = i;
-        for (int j = i + 1; j < n; j++) {
-            if (arr[j] < arr[minIndex])
-                minIndex = j;
+        for (int j = 0; j < m; j++) {
+            uniqueCombinations.insert(arr1[i] + arr2[j]);
         }
-        swap(arr[i], arr[minIndex]);
-
-        cout << "After iteration " << i + 1 << ": ";
-        for (int k = 0; k < n; k++)
-            cout << arr[k] << " ";
-        cout << endl;
     }
 
-    cout << "Final sorted array: ";
-    for (int i = 0; i < n; i++)
-        cout << arr[i] << " ";
-    cout << endl;
+    for (auto it = uniqueCombinations.begin(); it != uniqueCombinations.end(); ++it) {
+        cout << *it;
+        if (next(it) != uniqueCombinations.end())
+            cout << " ";
+    }
 
     return 0;
 }
