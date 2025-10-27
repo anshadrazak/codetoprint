@@ -7,26 +7,24 @@ int main() {
     int n, m;
     cin >> n;
     vector<string> arr1(n);
-    for (int i = 0; i < n; i++)
-        cin >> arr1[i];
+    for (int i = 0; i < n; i++) cin >> arr1[i];
 
     cin >> m;
     vector<string> arr2(m);
-    for (int i = 0; i < m; i++)
-        cin >> arr2[i];
+    for (int i = 0; i < m; i++) cin >> arr2[i];
 
-    set<string> uniqueCombinations;
+    set<string> combinations; // ensures uniqueness
 
     for (int i = 0; i < n; i++) {
         for (int j = 0; j < m; j++) {
-            uniqueCombinations.insert(arr1[i] + arr2[j]);
+            combinations.insert(arr1[i] + arr2[j]);
         }
     }
 
-    for (auto it = uniqueCombinations.begin(); it != uniqueCombinations.end(); ++it) {
+    // Print all unique combinations separated by a space
+    for (auto it = combinations.begin(); it != combinations.end(); ++it) {
+        if (it != combinations.begin()) cout << " ";
         cout << *it;
-        if (next(it) != uniqueCombinations.end())
-            cout << " ";
     }
 
     return 0;
