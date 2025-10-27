@@ -1,6 +1,6 @@
 #include <iostream>
 #include <vector>
-#include <set>
+#include <unordered_set>
 using namespace std;
 
 int main() {
@@ -8,24 +8,28 @@ int main() {
     cin >> n;
     vector<string> arr1(n);
     for (int i = 0; i < n; i++) cin >> arr1[i];
-
+    
     cin >> m;
     vector<string> arr2(m);
     for (int i = 0; i < m; i++) cin >> arr2[i];
-
-    set<string> combinations; // ensures uniqueness
-
+    
+    unordered_set<string> seen;  // for uniqueness
+    vector<string> result;       // preserve order
+    
     for (int i = 0; i < n; i++) {
         for (int j = 0; j < m; j++) {
-            combinations.insert(arr1[i] + arr2[j]);
+            string combo = arr1[i] + arr2[j];
+            if (seen.find(combo) == seen.end()) {
+                seen.insert(combo);
+                result.push_back(combo);
+            }
         }
     }
-
-    // Print all unique combinations separated by a space
-    for (auto it = combinations.begin(); it != combinations.end(); ++it) {
-        if (it != combinations.begin()) cout << " ";
-        cout << *it;
+    
+    for (int i = 0; i < result.size(); i++) {
+        if (i > 0) cout << " ";
+        cout << result[i];
     }
-
+    
     return 0;
 }
