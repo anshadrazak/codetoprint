@@ -1,63 +1,42 @@
 #include <iostream>
 #include <vector>
-#include <cmath>
-#include <algorithm>
+#include <unordered_map>
 using namespace std;
-
-// Function to find index of the closest element using binary search
-int findClosestIndex(const vector<int>& arr, int x) {
-    int low = 0, high = arr.size() - 1;
-    while (low <= high) {
-        int mid = (low + high) / 2;
-        if (arr[mid] == x)
-            return mid;
-        else if (arr[mid] < x)
-            low = mid + 1;
-        else
-            high = mid - 1;
-    }
-    // When not found, 'low' is the insertion point
-    if (low == 0) return 0;
-    if (low == arr.size()) return arr.size() - 1;
-    // Return whichever is closer
-    return (abs(arr[low] - x) < abs(arr[low - 1] - x)) ? low : low - 1;
-}
 
 int main() {
     int n;
     cin >> n;
-    vector<int> books(n);
+    vector<int> a(n);
     for (int i = 0; i < n; i++)
-        cin >> books[i];
+        cin >> a[i];
+    
+    int m;
+    cin >> m;
+    vector<int> b(m);
+    for (int i = 0; i < m; i++)
+        cin >> b[i];
 
-    int x, k;
-    cin >> x >> k;
+    unordered_map<int, int> freq;
+    for (int i = 0; i < m; i++)
+        freq[b[i]]++; // count occurrences of each element in second dataset
 
-    int index = findClosestIndex(books, x);
-
-    // Two pointers to expand around the closest index
-    int left = index - 1, right = index + 1;
-    vector<int> result;
-    result.push_back(books[index]);
-
-    while (result.size() < k) {
-        if (left >= 0 && right < n) {
-            if (abs(books[left] - x) <= abs(books[right] - x))
-                result.push_back(books[left--]);
-            else
-                result.push_back(books[right++]);
-        } else if (left >= 0)
-            result.push_back(books[left--]);
-        else if (right < n)
-            result.push_back(books[right++]);
-        else
-            break;
+    vector<int> common;
+    for (int i = 0; i < n; i++) {
+        if (freq[a[i]] > 0) {
+            common.push_back(a[i]);
+            freq[a[i]]--; // handle duplicates correctly
+        }
     }
 
-    sort(result.begin(), result.end()); // Output should be sorted
-    for (int i = 0; i < result.size(); i++) {
-        cout << result[i];
-        if (i != result.size() - 1) cout << " ";
+    cout << "Common Elements: ";
+    if (common.empty())
+        cout << "None";
+    else {
+        for (int i = 0; i < common.size(); i++) {
+            cout << common[i];
+            if (i != common.size() - 1)
+                cout << " ";
+        }
     }
 
     return 0;
