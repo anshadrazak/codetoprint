@@ -1,13 +1,15 @@
-"#include <iostream>"
-"#include <iomanip>"
-"using namespace std;"
-"int main() {"
-"    int n;"
-"    cin >> n;"
-"    for (int i = 1; i <= n; i++) {"
-"        cout << fixed << setprecision(1) << 0.1 * i;"
-"        if (i < n)"
-"            cout << setw(3) << \"\";"
-"    }"
-"    return 0;"
-"}"
+#include <iostream>
+#include <iomanip>
+using namespace std;
+
+int main() {
+    int n;
+    cin >> n;
+
+    for (int i = 1; i <= n; i++) {
+        cout << fixed << setprecision(1) << 0.1 * i;
+        if (i < n)
+            cout << setw(3) << " ";
+    }
+    return 0;
+}
