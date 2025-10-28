@@ -14,7 +14,7 @@ int main() {
     int x, k;
     cin >> x >> k;
 
-    // Binary search to find insert position for x
+    // Binary search to find insertion point
     int left = 0, right = n - 1;
     while (left <= right) {
         int mid = left + (right - left) / 2;
@@ -24,30 +24,31 @@ int main() {
             right = mid - 1;
     }
 
-    // After loop: 'right' points to smaller, 'left' points to larger or equal
+    // Now, right is index just smaller than x, left is just greater or equal to x
     int l = right;
     int r = left;
 
     vector<int> result;
 
-    // Pick k closest elements
+    // Pick k closest
     while (k-- > 0) {
-        if (l >= 0 && r < n) {
-            if (abs(books[l] - x) <= abs(books[r] - x))
-                result.push_back(books[l--]);
-            else
-                result.push_back(books[r++]);
-        } else if (l >= 0)
-            result.push_back(books[l--]);
-        else if (r < n)
+        if (l < 0) {
             result.push_back(books[r++]);
+        } else if (r >= n) {
+            result.push_back(books[l--]);
+        } else if (abs(books[l] - x) <= abs(books[r] - x)) {
+            result.push_back(books[l--]);
+        } else {
+            result.push_back(books[r++]);
+        }
     }
 
     sort(result.begin(), result.end());
 
     for (int i = 0; i < result.size(); i++) {
         cout << result[i];
-        if (i != result.size() - 1) cout << " ";
+        if (i != result.size() - 1)
+            cout << " ";
     }
 
     return 0;
