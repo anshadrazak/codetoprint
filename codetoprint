@@ -1,54 +1,29 @@
 #include <iostream>
-#include <vector>
-#include <cmath>
-#include <algorithm>
 using namespace std;
 
 int main() {
-    int n;
-    cin >> n;
-    vector<int> books(n);
-    for (int i = 0; i < n; i++)
-        cin >> books[i];
+    int n1, n2;
 
-    int x, k;
-    cin >> x >> k;
-
-    // Binary search to find insertion point
-    int left = 0, right = n - 1;
-    while (left <= right) {
-        int mid = left + (right - left) / 2;
-        if (books[mid] < x)
-            left = mid + 1;
-        else
-            right = mid - 1;
+    // Input size of Course A
+    cin >> n1;
+    int courseA[n1];
+    for (int i = 0; i < n1; i++) {
+        cin >> courseA[i];
     }
 
-    // Now, right is index just smaller than x, left is just greater or equal to x
-    int l = right;
-    int r = left;
-
-    vector<int> result;
-
-    // Pick k closest
-    while (k-- > 0) {
-        if (l < 0) {
-            result.push_back(books[r++]);
-        } else if (r >= n) {
-            result.push_back(books[l--]);
-        } else if (abs(books[l] - x) <= abs(books[r] - x)) {
-            result.push_back(books[l--]);
-        } else {
-            result.push_back(books[r++]);
-        }
+    // Input size of Course B
+    cin >> n2;
+    int courseB[n2];
+    for (int i = 0; i < n2; i++) {
+        cin >> courseB[i];
     }
 
-    sort(result.begin(), result.end());
-
-    for (int i = 0; i < result.size(); i++) {
-        cout << result[i];
-        if (i != result.size() - 1)
-            cout << " ";
+    // Output: Course B first, then Course A
+    for (int i = 0; i < n2; i++) {
+        cout << courseB[i] << " ";
+    }
+    for (int i = 0; i < n1; i++) {
+        cout << courseA[i] << " ";
     }
 
     return 0;
