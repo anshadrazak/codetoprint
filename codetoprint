@@ -14,33 +14,24 @@ int main() {
     int x, k;
     cin >> x >> k;
 
-    // Step 1: Binary Search to find the closest position
-    int left = 0, right = n - 1, mid;
+    // Binary search to find insert position for x
+    int left = 0, right = n - 1;
     while (left <= right) {
-        mid = left + (right - left) / 2;
-        if (books[mid] == x)
-            break;
-        else if (books[mid] < x)
+        int mid = left + (right - left) / 2;
+        if (books[mid] < x)
             left = mid + 1;
         else
             right = mid - 1;
     }
 
-    // Determine the starting positions
-    int l = mid - 1, r = mid + 1;
-    if (books[mid] != x) { // Adjust mid if x not found
-        if (left >= n) mid = n - 1;
-        else if (right < 0) mid = 0;
-        else mid = left;
-        l = mid - 1;
-        r = mid;
-    }
+    // After loop: 'right' points to smaller, 'left' points to larger or equal
+    int l = right;
+    int r = left;
 
     vector<int> result;
-    result.push_back(books[mid]);
 
-    // Step 2: Expand around the mid
-    while (result.size() < k) {
+    // Pick k closest elements
+    while (k-- > 0) {
         if (l >= 0 && r < n) {
             if (abs(books[l] - x) <= abs(books[r] - x))
                 result.push_back(books[l--]);
@@ -50,11 +41,8 @@ int main() {
             result.push_back(books[l--]);
         else if (r < n)
             result.push_back(books[r++]);
-        else
-            break;
     }
 
-    // Step 3: Sort the k closest books before printing
     sort(result.begin(), result.end());
 
     for (int i = 0; i < result.size(); i++) {
