@@ -1,42 +1,29 @@
 #include <iostream>
-#include <vector>
-#include <unordered_map>
 using namespace std;
 
 int main() {
-    int n;
-    cin >> n;
-    vector<int> a(n);
-    for (int i = 0; i < n; i++)
-        cin >> a[i];
-    
-    int m;
-    cin >> m;
-    vector<int> b(m);
-    for (int i = 0; i < m; i++)
-        cin >> b[i];
+    int n1, n2;
 
-    unordered_map<int, int> freq;
-    for (int i = 0; i < m; i++)
-        freq[b[i]]++; // count occurrences of each element in second dataset
-
-    vector<int> common;
-    for (int i = 0; i < n; i++) {
-        if (freq[a[i]] > 0) {
-            common.push_back(a[i]);
-            freq[a[i]]--; // handle duplicates correctly
-        }
+    // Input size of Course A
+    cin >> n1;
+    int courseA[n1];
+    for (int i = 0; i < n1; i++) {
+        cin >> courseA[i];
     }
 
-    cout << "Common Elements: ";
-    if (common.empty())
-        cout << "None";
-    else {
-        for (int i = 0; i < common.size(); i++) {
-            cout << common[i];
-            if (i != common.size() - 1)
-                cout << " ";
-        }
+    // Input size of Course B
+    cin >> n2;
+    int courseB[n2];
+    for (int i = 0; i < n2; i++) {
+        cin >> courseB[i];
+    }
+
+    // Output: Course B first, then Course A
+    for (int i = 0; i < n2; i++) {
+        cout << courseB[i] << " ";
+    }
+    for (int i = 0; i < n1; i++) {
+        cout << courseA[i] << " ";
     }
 
     return 0;
