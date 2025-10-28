@@ -1,56 +1,50 @@
 #include <iostream>
+#include <iomanip>
 #include <vector>
-#include <cmath>
-#include <algorithm>
 using namespace std;
 
 int main() {
-int n;
-cin >> n;
-vector<int> books(n);
-for (int i = 0; i < n; i++)
-cin >> books[i];
+    int n;
+    cin >> n;
+    vector<float> stocks(n);
+    
+    for (int i = 0; i < n; i++)
+        cin >> stocks[i];
+    
+    // Print initial order
+    cout << fixed << setprecision(2);
+    cout << "Initial order: ";
+    for (int i = 0; i < n; i++) {
+        cout << stocks[i];
+        if (i != n - 1) cout << " ";
+    }
+    cout << endl;
 
-int x, k;  
-cin >> x >> k;  
+    // Insertion sort with intermediate output
+    for (int i = 1; i < n; i++) {
+        float key = stocks[i];
+        int j = i - 1;
 
-// Binary search to find insertion point  
-int left = 0, right = n - 1;  
-while (left <= right) {  
-    int mid = left + (right - left) / 2;  
-    if (books[mid] < x)  
-        left = mid + 1;  
-    else  
-        right = mid - 1;  
-}  
+        while (j >= 0 && stocks[j] > key) {
+            stocks[j + 1] = stocks[j];
+            j--;
+        }
+        stocks[j + 1] = key;
 
-// Now, right is index just smaller than x, left is just greater or equal to x  
-int l = right;  
-int r = left;  
+        cout << "After Iteration " << i << ": ";
+        for (int k = 0; k < n; k++) {
+            cout << stocks[k];
+            if (k != n - 1) cout << " ";
+        }
+        cout << endl;
+    }
 
-vector<int> result;  
+    // Print final sorted order
+    cout << "Sorted order: ";
+    for (int i = 0; i < n; i++) {
+        cout << stocks[i];
+        if (i != n - 1) cout << " ";
+    }
 
-// Pick k closest  
-while (k-- > 0) {  
-    if (l < 0) {  
-        result.push_back(books[r++]);  
-    } else if (r >= n) {  
-        result.push_back(books[l--]);  
-    } else if (abs(books[l] - x) <= abs(books[r] - x)) {  
-        result.push_back(books[l--]);  
-    } else {  
-        result.push_back(books[r++]);  
-    }  
-}  
-
-sort(result.begin(), result.end());  
-
-for (int i = 0; i < result.size(); i++) {  
-    cout << result[i];  
-    if (i != result.size() - 1)  
-        cout << " ";  
-}  
-
-return 0;
-
+    return 0;
 }
