@@ -1,30 +1,43 @@
 #include <iostream>
+#include <iomanip>
 using namespace std;
 
-bool isPrime(int n) {
-    if (n <= 1)
-        return false;
-    for (int i = 2; i * i <= n; i++) {
-        if (n % i == 0)
-            return false;
-    }
-    return true;
+// Overloaded function for integer addition
+void add(int a, int b, int c) {
+    int sum = 0;
+    sum += a;
+    cout << sum << endl;
+    sum += b;
+    cout << sum << endl;
+    sum += c;
+    cout << sum << endl;
 }
 
-void generatePrimesInRange(int &start, int &end) {
-    bool first = true;
-    for (int i = start; i <= end; i++) {
-        if (isPrime(i)) {
-            if (!first) cout << " ";
-            cout << i;
-            first = false;
-        }
-    }
+// Overloaded function for double addition
+void add(double a, double b, double c) {
+    double sum = 0;
+    sum += a;
+    cout << fixed << setprecision(1) << sum << endl;
+    sum += b;
+    cout << fixed << setprecision(1) << sum << endl;
+    sum += c;
+    cout << fixed << setprecision(1) << sum << endl;
 }
 
 int main() {
-    int start, end;
-    cin >> start >> end;
-    generatePrimesInRange(start, end);
+    int choice;
+    cin >> choice;
+
+    if (choice == 1) {
+        int x, y, z;
+        cin >> x >> y >> z;
+        add(x, y, z);
+    } 
+    else if (choice == 2) {
+        double x, y, z;
+        cin >> x >> y >> z;
+        add(x, y, z);
+    }
+
     return 0;
 }
