@@ -1,15 +1,30 @@
 #include <iostream>
-#include <iomanip>
 using namespace std;
 
-int main() {
-    int n;
-    cin >> n;
-
-    for (int i = 1; i <= n; i++) {
-        cout << fixed << setprecision(1) << 0.1 * i;
-        if (i < n)
-            cout << setw(3) << " ";
+bool isPrime(int n) {
+    if (n <= 1)
+        return false;
+    for (int i = 2; i * i <= n; i++) {
+        if (n % i == 0)
+            return false;
     }
+    return true;
+}
+
+void generatePrimesInRange(int &start, int &end) {
+    bool first = true;
+    for (int i = start; i <= end; i++) {
+        if (isPrime(i)) {
+            if (!first) cout << " ";
+            cout << i;
+            first = false;
+        }
+    }
+}
+
+int main() {
+    int start, end;
+    cin >> start >> end;
+    generatePrimesInRange(start, end);
     return 0;
 }
