@@ -1,33 +1,34 @@
 #include <iostream>
 #include <vector>
-#include <algorithm>
+#include <unordered_set>
 using namespace std;
 
 int main() {
     int n, m;
     cin >> n;
-    vector<int> arr1(n);
-    for(int i = 0; i < n; i++)
-        cin >> arr1[i];
+    vector<string> arr1(n);
+    for (int i = 0; i < n; i++) cin >> arr1[i];
 
     cin >> m;
-    vector<int> arr2(m);
-    for(int i = 0; i < m; i++)
-        cin >> arr2[i];
+    vector<string> arr2(m);
+    for (int i = 0; i < m; i++) cin >> arr2[i];
 
-    // Merge the arrays
-    vector<int> merged;
-    merged.reserve(n + m);
-    merged.insert(merged.end(), arr1.begin(), arr1.end());
-    merged.insert(merged.end(), arr2.begin(), arr2.end());
+    unordered_set<string> seen;  // for uniqueness
+    vector<string> result;       // preserve order
 
-    // Sort the merged array
-    sort(merged.begin(), merged.end());
+    for (int i = 0; i < n; i++) {
+        for (int j = 0; j < m; j++) {
+            string combo = arr1[i] + arr2[j];
+            if (seen.find(combo) == seen.end()) {
+                seen.insert(combo);
+                result.push_back(combo);
+            }
+        }
+    }
 
-    // Print merged sorted array
-    for(int i = 0; i < merged.size(); i++) {
-        cout << merged[i];
-        if(i != merged.size() - 1) cout << " ";
+    for (int i = 0; i < result.size(); i++) {
+        if (i > 0) cout << " ";
+        cout << result[i];
     }
 
     return 0;
