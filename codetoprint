@@ -1,35 +1,60 @@
 #include <iostream>
-#include <vector>
-#include <unordered_set>
 using namespace std;
 
+class Fraction {
+private:
+    int numerator;
+    int denominator;
+
+public:
+    Fraction() {
+        numerator = 0;
+        denominator = 1;
+    }
+
+    void setFraction(int num, int den) {
+        numerator = num;
+        denominator = den;
+    }
+
+    int getNumerator() const {
+        return numerator;
+    }
+
+    int getDenominator() const {
+        return denominator;
+    }
+
+    friend Fraction addMixedFraction(Fraction frac1, Fraction frac2);
+};
+
+Fraction addMixedFraction(Fraction frac1, Fraction frac2) {
+    Fraction result;
+    int num, den;
+
+    if (frac1.denominator == frac2.denominator) {
+        num = frac1.numerator + frac2.numerator;
+        den = frac1.denominator;
+    } else {
+        den = frac1.denominator * frac2.denominator;
+        num = (frac1.numerator * frac2.denominator) + (frac2.numerator * frac1.denominator);
+    }
+
+    result.setFraction(num, den);
+    return result;
+}
+
 int main() {
-    int n, m;
-    cin >> n;
-    vector<string> arr1(n);
-    for (int i = 0; i < n; i++) cin >> arr1[i];
+    int num1, den1, num2, den2;
+    cin >> num1 >> den1;
+    cin >> num2 >> den2;
 
-    cin >> m;
-    vector<string> arr2(m);
-    for (int i = 0; i < m; i++) cin >> arr2[i];
+    Fraction frac1, frac2;
+    frac1.setFraction(num1, den1);
+    frac2.setFraction(num2, den2);
 
-    unordered_set<string> seen;  // for uniqueness
-    vector<string> result;       // preserve order
+    Fraction result = addMixedFraction(frac1, frac2);
 
-    for (int i = 0; i < n; i++) {
-        for (int j = 0; j < m; j++) {
-            string combo = arr1[i] + arr2[j];
-            if (seen.find(combo) == seen.end()) {
-                seen.insert(combo);
-                result.push_back(combo);
-            }
-        }
-    }
-
-    for (int i = 0; i < result.size(); i++) {
-        if (i > 0) cout << " ";
-        cout << result[i];
-    }
-
+    cout << result.getNumerator() << "/" << result.getDenominator();
     return 0;
 }
