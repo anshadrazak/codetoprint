@@ -2,34 +2,37 @@
 #include <iomanip>
 using namespace std;
 
-class Property {
+class UtilityBill {
 public:
-    int ;
-    double purchasePrice;
-    double ;
-    }
+    double current_balance;
+    double monthly_charge;
+    double payment_received;
 
-    double calculateROI() {
-        return (rentalIncome / purchasePrice) * 100.0;
+    void calculate() {
+        // If payment received is less than monthly charge, apply late fee = 5% of monthly charge
+        if (payment_received < monthly_charge) {
+            double late_fee = 0.05 * monthly_charge;
+            current_balance = current_balance + monthly_charge - payment_received + late_fee;
+            cout << fixed << setprecision(2);
+            cout << "Late fee: Rs." << late_fee << endl;
+        } else {
+            current_balance = current_balance + monthly_charge - payment_received;
+        }
     }
 };
 
 int main() {
-    int numProperties;
-    cin >> numProperties;
-    Property properties[10]; // Assuming max properties n <= 10 (use as per constraints)
+    UtilityBill bill;
+    UtilityBill* billPtr = &bill;
 
-    for (int i = 0; i < numProperties; i++) {
-        int id;
-        double price, rent;
-        cin >> id >> price >> rent;
-        properties[i].setValues(id, price, rent);
-    }
+    cin >> billPtr->current_balance;
+    cin >> billPtr->monthly_charge;
+    cin >> billPtr->payment_received;
 
-    for (int i = 0; i < numProperties; i++) {
-        double roi = properties[i].calculateROI();
-        cout << properties[i].propertyID << " " << fixed << setprecision(2) << roi << "%" << endl;
-    }
+    billPtr->calculate();
+
+    cout << fixed << setprecision(2);
+    cout << "Adjusted balance: Rs." << billPtr->current_balance << endl;
 
     return 0;
 }
