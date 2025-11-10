@@ -4,11 +4,11 @@ using namespace std;
 
 class Property {
 public:
-    int propertyID;
+    int ;
     double purchasePrice;
     double rentalIncome;
 
-    void setValues(int id, double price, double rent) {
+    void  id, double price, double rent) {
         propertyID = id;
         purchasePrice = price;
         rentalIncome = rent;
