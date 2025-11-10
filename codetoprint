@@ -1,35 +1,37 @@
 #include <iostream>
+#include <iomanip>
+#include <string>
 using namespace std;
 
-void printHistogram(int *arr, int n) {
-    // Check for input validity
-    if (n < 1 || n > 20) {
-        cout << "Invalid" << endl;
-        return;
-    }
-    for (int i = 0; i < n; i++) {
-        if (*(arr + i) < 1 || *(arr + i) > 10) {
-            cout << "Invalid" << endl;
-            return;
-        }
-    }
+class RestaurantMenu {
+public:
+    string menuName;
+    int numItems;
+    float prices[50];
 
-    // Print histogram
-    for (int i = 0; i < n; i++) {
-        for (int j = 0; j < *(arr + i); j++) {
-            cout << "x";
+    float calculateAveragePrice() {
+        float sum = 0;
+        for (int i = 0; i < numItems; i++) {
+            sum += *(prices + i); // Using pointer to access array elements
         }
-        cout << endl;
+        if (numItems == 0) return 0;
+        return sum / numItems;
     }
-}
+};
 
 int main() {
-    int n;
-    cin >> n;
-    int heights[20];
-    for (int i = 0; i < n; i++) {
-        cin >> heights[i];
+    RestaurantMenu menu;
+    getline(cin, menu.menuName);
+    cin >> menu.numItems;
+
+    for (int i = 0; i < menu.numItems; i++) {
+        float price;
+        cin >> price;
+        menu.prices[i] = price;
     }
-    printHistogram(heights, n);
+
+    cout << "Menu Name: " << menu.menuName << endl;
+    cout << "Average Price: " << fixed << setprecision(2) << menu.calculateAveragePrice() << endl;
+
     return 0;
 }
