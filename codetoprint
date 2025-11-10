@@ -1,102 +1,94 @@
 #include <iostream>
 using namespace std;
 
-class Node {
-public:
-    int data;
-    Node* next;
+struct Node{
+    char data;
+    Node *next;
 };
 
-// Function to insert a node at the end of the linked list
-void insertNode(Node** head_ref, int data) {
-    Node* newNode = new Node();
-    newNode->data = data;
-    newNode->next = nullptr;
+int length(Node *head){
+    int count = 0;
+    Node *temp = head->next;
+    while(temp != NULL){
+        temp = temp->next;
+        count++;
+    }
+    return count;
+}
 
-    if (*head_ref == nullptr) {
-        *head_ref = newNode;
+void insertAfterPosition(Node* head, int position, char value){
+    int len = length(head);
+    if(len < position){
+        cout << "Invalid position." << endl;
         return;
     }
 
-    Node* temp = *head_ref;
-    while (temp->next != nullptr)
+    Node* newNode = new Node;
+    newNode->data = value;
+    newNode->next = NULL;
+
+    if(position == 0){
+        newNode->next = head->next;
+        head->next = newNode;
+    } else {
+        Node *first = new Node;
+        Node *second = new Node;
+        Node *temp = new Node;
+        temp->data = value;
+        temp->next = NULL;
+
+        first = head->next;
+        second = head->next;
+        
+        for(int i = 1; i < position; i++){
+            first = first->next;
+        }
+        for(int i = 0; i < position; i++){
+            second = second->next;
+        }
+
+        first->next = temp;
+        temp->next = second;
+    }
+}
+
+void displayList(Node* head){
+    Node *temp = head->next;
+    while(temp != NULL){
+        cout << temp->data << " ";
         temp = temp->next;
-
-    temp->next = newNode;
+    }
+    cout << endl;
 }
 
-// Function to print the linked list
-void printList(Node* head) {
-    Node* temp = head;
-    while (temp != nullptr) {
-        cout << temp->data;
-        if (temp->next != nullptr)
-            cout << " ";
+int main(){
+    int n;
+    cin >> n;
+
+    Node *head = new Node;
+    head->next = NULL;
+
+    Node *temp = head;
+
+    for(int i = 0; i < n; i++){
+        char ch;
+        cin >> ch;
+        Node *newNode = new Node;
+        newNode->data = ch;
+        newNode->next = NULL;
+        temp->next = newNode;
         temp = temp->next;
     }
-}
 
-// Function to swap every two adjacent nodes in the linked list
-Node* swapPairs(Node* head) {
-    if (head == nullptr || head->next == nullptr)
-        return head;
+    int position;
+    cin >> position;
+    char value;
+    cin >> value;
 
-    Node* prev = nullptr;
-    Node* curr = head;
-    head = head->next;  // new head after first swap
+    insertAfterPosition(head, position, value);
 
-    while (curr != nullptr && curr->next != nullptr) {
-        Node* nextPair = curr->next->next;
-        Node* second = curr->next;
+    cout << "Updated list" << endl;
+    displayList(head);
 
-        second->next = curr;
-        curr->next = nextPair;
-
-        if (prev != nullptr)
-            prev->next = second;
-
-        prev = curr;
-        curr = nextPair;
-    }
-
-    return head;
-}
-
-// Function to delete the linked list and free memory
-void deleteLinkedList(Node** head_ref) {
-    Node* current = *head_ref;
-    Node* next = nullptr;
-
-    while (current != nullptr) {
-        next = current->next;
-        delete current;
-        current = next;
-    }
-
-    *head_ref = nullptr;
-}
-
-int main() {
-    Node* head = nullptr;
-    int numNodes;
-    cin >> numNodes;
-
-    for (int i = 0; i < numNodes; i++) {
-        int val;
-        cin >> val;
-        insertNode(&head, val);
-    }
-
-    cout << "Before swapping: ";
-    printList(head);
-    cout << endl;
-
-    head = swapPairs(head);
-
-    cout << "After swapping: ";
-    printList(head);
-    cout << endl;
-
-    deleteLinkedList(&head);
     return 0;
 }
