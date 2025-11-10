@@ -1,94 +1,84 @@
 #include <iostream>
 using namespace std;
 
-struct Node{
+struct Node {
     char data;
-    Node *next;
+    Node* prev;
+    Node* next;
 };
 
-int length(Node *head){
-    int count = 0;
-    Node *temp = head->next;
-    while(temp != NULL){
-        temp = temp->next;
-        count++;
-    }
-    return count;
-}
-
-void insertAfterPosition(Node* head, int position, char value){
-    int len = length(head);
-    if(len < position){
-        cout << "Invalid position." << endl;
-        return;
-    }
-
+void insertEnd(Node* &head, Node* &tail, char value) {
     Node* newNode = new Node;
     newNode->data = value;
     newNode->next = NULL;
 
-    if(position == 0){
-        newNode->next = head->next;
-        head->next = newNode;
+    if(head == NULL) {
+        newNode->prev = NULL;
+        head = tail = newNode;
     } else {
-        Node *first = new Node;
-        Node *second = new Node;
-        Node *temp = new Node;
-        temp->data = value;
-        temp->next = NULL;
-
-        first = head->next;
-        second = head->next;
-        
-        for(int i = 1; i < position; i++){
-            first = first->next;
-        }
-        for(int i = 0; i < position; i++){
-            second = second->next;
-        }
-
-        first->next = temp;
-        temp->next = second;
+        newNode->prev = tail;
+        tail->next = newNode;
+        tail = newNode;
     }
 }
 
-void displayList(Node* head){
-    Node *temp = head->next;
-    while(temp != NULL){
+int length(Node* head) {
+    int count = 0;
+    while(head != NULL) {
+        count++;
+        head = head->next;
+    }
+    return count;
+}
+
+void rotateLeft(Node* &head, Node* &tail, int k) {
+    if(head == NULL || k == 0) return;
+
+    int len = length(head);
+    k = k % len;  
+    if(k == 0) return;
+
+    Node* temp = head;
+    for(int i = 0; i < k - 1; i++)
+        temp = temp->next;
+
+    Node* newHead = temp->next;
+    newHead->prev = NULL;
+    temp->next = NULL;
+
+    tail->next = head;
+    head->prev = tail;
+
+    head = newHead;
+    tail = temp;
+}
+
+void display(Node* head) {
+    Node* temp = head;
+    while(temp != NULL) {
         cout << temp->data << " ";
         temp = temp->next;
     }
-    cout << endl;
 }
 
-int main(){
+int main() {
     int n;
     cin >> n;
 
-    Node *head = new Node;
-    head->next = NULL;
+    Node* head = NULL;
+    Node* tail = NULL;
 
-    Node *temp = head;
-
-    for(int i = 0; i < n; i++){
+    for(int i = 0; i < n; i++) {
         char ch;
         cin >> ch;
-        Node *newNode = new Node;
-        newNode->data = ch;
-        newNode->next = NULL;
-        temp->next = newNode;
-        temp = temp->next;
+        insertEnd(head, tail, ch);
     }
 
-    int position;
-    cin >> position;
-    char value;
-    cin >> value;
+    int k;
+    cin >> k;
 
-    insertAfterPosition(head, position, value);
-
-    cout << "Updated list" << endl;
-    displayList(head);
+    rotateLeft(head, tail, k);
+    display(head);
 
     return 0;
 }
