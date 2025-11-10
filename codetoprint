@@ -2,12 +2,12 @@
 using namespace std;
 
 struct Node {
-    char data;
+    string data;
     Node* prev;
     Node* next;
 };
 
-void insertEnd(Node* &head, Node* &tail, char value) {
+void insertEnd(Node* &head, Node* &tail, string value) {
     Node* newNode = new Node;
     newNode->data = value;
     newNode->next = NULL;
@@ -22,63 +22,41 @@ void insertEnd(Node* &head, Node* &tail, char value) {
     }
 }
 
-int length(Node* head) {
-    int count = 0;
-    while(head != NULL) {
-        count++;
-        head = head->next;
-    }
-    return count;
-}
-
-void rotateLeft(Node* &head, Node* &tail, int k) {
-    if(head == NULL || k == 0) return;
-
-    int len = length(head);
-    k = k % len;  
-    if(k == 0) return;
-
-    Node* temp = head;
-    for(int i = 0; i < k - 1; i++)
-        temp = temp->next;
-
-    Node* newHead = temp->next;
-    newHead->prev = NULL;
-    temp->next = NULL;
-
-    tail->next = head;
-    head->prev = tail;
-
-    head = newHead;
-    tail = temp;
-}
-
 void display(Node* head) {
     Node* temp = head;
     while(temp != NULL) {
-        cout << temp->data << " ";
+        cout << temp->data;
         temp = temp->next;
+        if(temp != NULL) cout << " ";
     }
+    cout << endl;
 }
 
 int main() {
     int n;
     cin >> n;
 
-    Node* head = NULL;
-    Node* tail = NULL;
+    Node *head = NULL, *tail = NULL;
 
     for(int i = 0; i < n; i++) {
-        char ch;
-        cin >> ch;
-        insertEnd(head, tail, ch);
+        string name;
+        cin >> name;
+        insertEnd(head, tail, name);
     }
 
-    int k;
-    cin >> k;
+    int mid = (n + 1) / 2; // first half gets extra if odd
+    Node *temp = head;
+    
+    for(int i = 1; i < mid; i++) {
+        temp = temp->next;
+    }
 
-    rotateLeft(head, tail, k);
+    Node *secondHead = temp->next;
+    if(secondHead != NULL) secondHead->prev = NULL;
+    temp->next = NULL;
+
     display(head);
+    display(secondHead);
 
     return 0;
 }
