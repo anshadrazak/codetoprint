@@ -6,12 +6,7 @@ class Property {
 public:
     int ;
     double purchasePrice;
-    double rentalIncome;
-
-    void  id, double price, double rent) {
-        propertyID = id;
-        purchasePrice = price;
-        rentalIncome = rent;
+    double ;
     }
 
     double calculateROI() {
