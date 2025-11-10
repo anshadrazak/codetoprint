@@ -2,30 +2,39 @@
 #include <iomanip>
 using namespace std;
 
-class Circle {
-    float radius;
-
+class Property {
 public:
-    void setRadius(float r) {
-        radius = r;
+    int propertyID;
+    double purchasePrice;
+    double rentalIncome;
+
+    void setValues(int id, double price, double rent) {
+        propertyID = id;
+        purchasePrice = price;
+        rentalIncome = rent;
     }
 
-    void calculate() {
-        float* ptr = &radius;
-        float area = 3.14f * (*ptr) * (*ptr);
-        float perimeter = 2 * 3.14f * (*ptr);
-
-        cout << fixed << setprecision(2);
-        cout << "Area: " << area << endl;
-        cout << "Perimeter: " << perimeter << endl;
+    double calculateROI() {
+        return (rentalIncome / purchasePrice) * 100.0;
     }
 };
 
 int main() {
-    float r;
-    cin >> r;
-    Circle circle;
-    circle.setRadius(r);
-    circle.calculate();
+    int numProperties;
+    cin >> numProperties;
+    Property properties[10]; // Assuming max properties n <= 10 (use as per constraints)
+
+    for (int i = 0; i < numProperties; i++) {
+        int id;
+        double price, rent;
+        cin >> id >> price >> rent;
+        properties[i].setValues(id, price, rent);
+    }
+
+    for (int i = 0; i < numProperties; i++) {
+        double roi = properties[i].calculateROI();
+        cout << properties[i].propertyID << " " << fixed << setprecision(2) << roi << "%" << endl;
+    }
+
     return 0;
 }
