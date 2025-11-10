@@ -1,38 +1,35 @@
 #include <iostream>
-#include <iomanip>
 using namespace std;
 
-class UtilityBill {
-public:
-    double current_balance;
-    double monthly_charge;
-    double payment_received;
-
-    void calculate() {
-        // If payment received is less than monthly charge, apply late fee = 5% of monthly charge
-        if (payment_received < monthly_charge) {
-            double late_fee = 0.05 * monthly_charge;
-            current_balance = current_balance + monthly_charge - payment_received + late_fee;
-            cout << fixed << setprecision(2);
-            cout << "Late fee: Rs." << late_fee << endl;
-        } else {
-            current_balance = current_balance + monthly_charge - payment_received;
+void printHistogram(int *arr, int n) {
+    // Check for input validity
+    if (n < 1 || n > 20) {
+        cout << "Invalid" << endl;
+        return;
+    }
+    for (int i = 0; i < n; i++) {
+        if (*(arr + i) < 1 || *(arr + i) > 10) {
+            cout << "Invalid" << endl;
+            return;
         }
     }
-};
+
+    // Print histogram
+    for (int i = 0; i < n; i++) {
+        for (int j = 0; j < *(arr + i); j++) {
+            cout << "x";
+        }
+        cout << endl;
+    }
+}
 
 int main() {
-    UtilityBill bill;
-    UtilityBill* billPtr = &bill;
-
-    cin >> billPtr->current_balance;
-    cin >> billPtr->monthly_charge;
-    cin >> billPtr->payment_received;
-
-    billPtr->calculate();
-
-    cout << fixed << setprecision(2);
-    cout << "Adjusted balance: Rs." << billPtr->current_balance << endl;
-
+    int n;
+    cin >> n;
+    int heights[20];
+    for (int i = 0; i < n; i++) {
+        cin >> heights[i];
+    }
+    printHistogram(heights, n);
     return 0;
 }
