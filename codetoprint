@@ -1,37 +1,17 @@
 #include <iostream>
-#include <iomanip>
 #include <string>
 using namespace std;
 
-class RestaurantMenu {
-public:
-    string menuName;
-    int numItems;
-    float prices[50];
-
-    float calculateAveragePrice() {
-        float sum = 0;
-        for (int i = 0; i < numItems; i++) {
-            sum += *(prices + i); // Using pointer to access array elements
-        }
-        if (numItems == 0) return 0;
-        return sum / numItems;
-    }
-};
-
 int main() {
-    RestaurantMenu menu;
-    getline(cin, menu.menuName);
-    cin >> menu.numItems;
+    string name;
+    int age, updatedAge;
 
-    for (int i = 0; i < menu.numItems; i++) {
-        float price;
-        cin >> price;
-        menu.prices[i] = price;
-    }
+    getline(cin, name);
+    cin >> age;
+    cin >> updatedAge;
 
-    cout << "Menu Name: " << menu.menuName << endl;
-    cout << "Average Price: " << fixed << setprecision(2) << menu.calculateAveragePrice() << endl;
+    cout << "Current age: " << age << endl;
+    cout << "Updated age: " << updatedAge << endl;
 
     return 0;
 }
