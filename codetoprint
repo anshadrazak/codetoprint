@@ -1,17 +1,27 @@
-#include <iostream>
-#include <string>
-using namespace std;
+class Product {
+private:
+    std::string name;
+    double price;
+    int quantity;
+    double total_price;
 
-int main() {
-    string name;
-    int age, updatedAge;
+public:
+    // Method to accept input and calculate total price
+    void input(std::string n, double p, int q) {
+        name = n;
+        price = p;
+        quantity = q;
+        // Calculate the total price
+        total_price = price * quantity;
+    }
 
-    getline(cin, name);
-    cin >> age;
-    cin >> updatedAge;
-
-    cout << "Current age: " << age << endl;
-    cout << "Updated age: " << updatedAge << endl;
-
-    return 0;
-}
+    // Method to display the product details
+    void display() const {
+        std::cout << "Product Name: " << name << std::endl;
+        
+        // Set up the output for two decimal places
+        std::cout << std::fixed << std::setprecision(2);
+        
+        std::cout << "Total Price: " << total_price << std::endl;
+    }
+};
