@@ -2,63 +2,54 @@
 #include <string>
 using namespace std;
 
-// Define the OnlineShop class
+// Class Definition (Your snippet)
 class OnlineShop {
 private:
     string productName;
     int totalItems;
-
 public:
-    // Member function to initialize product name (and optionally other members)
     void initialize(string name) {
         productName = name;
-        totalItems = 0; // Initialize totalItems
+        totalItems = 0;
     }
 
-    // Member function to calculate the total number of items purchased
-    // It takes the sum of the three items purchased by three different persons
+    // This function requires 3 arguments
     void calculateTotalItems(int a, int b, int c) {
         totalItems = a + b + c;
     }
 
-    // Member function to return the product name
     string getProductName() {
         return productName;
     }
 
-    // Member function to return the total number of items
     int getTotalItems() {
         return totalItems;
     }
 };
 
+// Main function (Corrected Footer Snippet + Logic)
 int main() {
     OnlineShop shop;
     string productName;
-    int a, b, c; // Variables for the three different persons' item counts
-
-    // Input format:
-    // 1. The product name (string)
-    // 2. Three integers a, b, c (number of items purchased)
-
-    // Read the product name (handles spaces in product name)
+    // --- Correction: Declaring three variables for the item counts ---
+    int a, b, c; 
+    
+    // Read the product name (handles spaces)
     getline(cin, productName);
     
-    // Read the three integers
-    cin >> a >> b >> c;
+    // --- New Line: Read the three item counts ---
+    cin >> a >> b >> c; 
 
-    // Use member functions on the shop object
+    // 1. Initialize the object (Fix: Pass 1 argument)
+    shop.initialize(productName); 
 
-    // 1. Initialize the shop object with the product name
-    shop.initialize(productName);
-
-    // 2. Calculate the total items
+    // 2. Calculate total items (Fix: Pass 3 arguments)
     shop.calculateTotalItems(a, b, c);
 
-    // 3. Get the total items for output
-    int totalItems = shop.getTotalItems();
+    // 3. Get the result for output
+    int totalItems = shop.getTotalItems(); 
 
-    // 4. Print the output in the specified format
+    // 4. Print the output
     cout << "Product Name: " << shop.getProductName() << endl;
     cout << "Total items: " << totalItems;
 
