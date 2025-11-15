@@ -1,29 +1,63 @@
 #include <iostream>
-using namespace std;
+#include <string>
+#include <iomanip> // Required for std::fixed and std::setprecision
 
-class OnlineShop {
-    string productName;
-    int a, b, c;
-
+// Whitelist suggests a class named RestaurantMenu and a function named calculate
+class RestaurantMenu {
 public:
-    void readData() {
-        cin >> productName;
-        cin >> a >> b >> c;
-    }
+    // Attributes
+    std::string menuName;
+    int numItems;
+    // Assuming a maximum of 50 items based on the constraint 1 <= N <= 50
+    float prices[50]; 
 
-    int totalItems() {
-        return a + b + c;
-    }
-
-    void display() {
-        cout << "Product Name: " << productName << endl;
-        cout << "Total items: " << totalItems();
+    // Member function to calculate the average price
+    float calculate() {
+        float sum = 0.0f;
+        for (int i = 0; i < numItems; ++i) {
+            sum += prices[i];
+        }
+        if (numItems > 0) {
+            return sum / numItems;
+        } else {
+            return 0.0f; // Avoid division by zero
+        }
     }
 };
 
 int main() {
-    OnlineShop obj;
-    obj.readData();
-    obj.display();
+    // 1. Create an object of the class
+    RestaurantMenu menu;
+
+    // 2. Input the Menu Name (string)
+    // The image snippet shows std::getline(std::cin, menu.menuName);
+    std::getline(std::cin, menu.menuName);
+
+    // 3. Input the Number of Menu Items (integer N)
+    // The image snippet shows std::cin >> menu.numItems;
+    std::cin >> menu.numItems;
+
+    // 4. Input the N float prices
+    float price;
+    for (int i = 0; i < menu.numItems; ++i) {
+        // Read the price from input
+        std::cin >> price; 
+        // Store the price in the array (as seen in the partial code)
+        menu.prices[i] = price;
+    }
+
+    // 5. Output the results
+    
+    // Output 1: Menu Name
+    std::cout << "Menu Name: " << menu.menuName << std::endl;
+
+    // Output 2: Average Price (formatted to 2 decimal places)
+    // The image snippet shows std::fixed and std::setprecision(2)
+    std::cout << "Average Price: " 
+              << std::fixed 
+              << std::setprecision(2) 
+              << menu.calculate() 
+              << std::endl;
+
     return 0;
 }
