@@ -1,1 +1,66 @@
-ghh 
+#include <iostream>
+#include <string>
+using namespace std;
+
+// Define the OnlineShop class
+class OnlineShop {
+private:
+    string productName;
+    int totalItems;
+
+public:
+    // Member function to initialize product name (and optionally other members)
+    void initialize(string name) {
+        productName = name;
+        totalItems = 0; // Initialize totalItems
+    }
+
+    // Member function to calculate the total number of items purchased
+    // It takes the sum of the three items purchased by three different persons
+    void calculateTotalItems(int a, int b, int c) {
+        totalItems = a + b + c;
+    }
+
+    // Member function to return the product name
+    string getProductName() {
+        return productName;
+    }
+
+    // Member function to return the total number of items
+    int getTotalItems() {
+        return totalItems;
+    }
+};
+
+int main() {
+    OnlineShop shop;
+    string productName;
+    int a, b, c; // Variables for the three different persons' item counts
+
+    // Input format:
+    // 1. The product name (string)
+    // 2. Three integers a, b, c (number of items purchased)
+
+    // Read the product name (handles spaces in product name)
+    getline(cin, productName);
+    
+    // Read the three integers
+    cin >> a >> b >> c;
+
+    // Use member functions on the shop object
+
+    // 1. Initialize the shop object with the product name
+    shop.initialize(productName);
+
+    // 2. Calculate the total items
+    shop.calculateTotalItems(a, b, c);
+
+    // 3. Get the total items for output
+    int totalItems = shop.getTotalItems();
+
+    // 4. Print the output in the specified format
+    cout << "Product Name: " << shop.getProductName() << endl;
+    cout << "Total items: " << totalItems;
+
+    return 0;
+}
