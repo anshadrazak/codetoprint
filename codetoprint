@@ -1,52 +1,22 @@
-#include <iostream>
-using namespace std;
-
-// Define the Complex class as required by the problem statement
-class Complex {
+class OnlineShop {
 private:
-    int real;
-    int imaginary;
+    string productName;
+    int totalItems;
 
 public:
-    // Member function to set the real and imaginary parts
-    void set_Data(int r, int i) {
-        real = r;
-        imaginary = i;
+    OnlineShop() {
+        totalItems = 0;
     }
 
-    // Member function to display the complex number
-    // It takes a string label (e.g., "First complex number") for output
-    void get_Data(string label) {
-        cout << label << endl;
-        cout << "real part: " << real << endl;
-        cout << "imaginary part: " << imaginary << endl;
+    void initialize() {
+        totalItems = 0;
+    }
+
+    void calculateTotalItems(int items) {
+        totalItems += items;
+    }
+
+    int getTotalItems() {
+        return totalItems;
     }
 };
-
-// --- Footer Snippet Starts Here (Integrated) ---
-
-int main() {
-    Complex obj1, obj2;
-    // Pointers to objects are created and initialized to point to obj1 and obj2
-    Complex* ptr1 = &obj1;
-    Complex* ptr2 = &obj2;
-
-    // Variables to store the input data
-    int real1, imaginary1, real2, imaginary2;
-
-    // Read input for the first complex number
-    cin >> real1 >> imaginary1;
-    
-    // Read input for the second complex number
-    cin >> real2 >> imaginary2; // This line must be added/implied from the full context
-
-    // Set data for the objects using the pointers (-> operator)
-    ptr1->set_Data(real1, imaginary1);
-    ptr2->set_Data(real2, imaginary2);
-
-    // Display data for the objects using the pointers (-> operator)
-    ptr1->get_Data("First complex number");
-    ptr2->get_Data("Second complex number");
-
-    return 0;
-}
