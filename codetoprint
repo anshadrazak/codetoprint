@@ -1,63 +1,96 @@
 #include <iostream>
 #include <string>
-#include <iomanip> // Required for std::fixed and std::setprecision
 
-// Whitelist suggests a class named RestaurantMenu and a function named calculate
-class RestaurantMenu {
+// Header Snippet suggests:
+// #include <iostream>
+// using namespace std; // Although 'using namespace std;' isn't explicitly shown, 
+//                      // the lack of 'std::' in the output snippet implies its usage, 
+//                      // but it's best practice to avoid it or use 'std::' prefixes.
+// We'll use std:: prefixes for clarity.
+
+// Fill your code here
+class OnlineShop {
+private:
+    std::string productName;
+    int totalItems;
+
 public:
-    // Attributes
-    std::string menuName;
-    int numItems;
-    // Assuming a maximum of 50 items based on the constraint 1 <= N <= 50
-    float prices[50]; 
+    // Initialize function (as seen in the footer snippet: shop.initialize();)
+    void initialize() {
+        totalItems = 0;
+    }
 
-    // Member function to calculate the average price
-    float calculate() {
-        float sum = 0.0f;
-        for (int i = 0; i < numItems; ++i) {
-            sum += prices[i];
-        }
-        if (numItems > 0) {
-            return sum / numItems;
-        } else {
-            return 0.0f; // Avoid division by zero
-        }
+    // Function to calculate and update the total items
+    // The footer snippet shows shop.calculateTotalItems(itemsPurchased);
+    // The input format requires three integers (a, b, c) on one line, which
+    // will be read into 'itemsPurchased' sequentially in main.
+    void calculateTotalItems(int itemsPurchased) {
+        // The loop in main() reads three items and calls this function
+        // three times. We accumulate the total here.
+        totalItems += itemsPurchased;
+    }
+
+    // Function to set the product name
+    void setProductName(std::string name) {
+        productName = name;
+    }
+
+    // Function to get the product name (implied by output)
+    std::string getProductName() {
+        return productName;
+    }
+    
+    // Function to get the total number of items
+    // The footer snippet shows totalItems = shop.getTotalItems();
+    int getTotalItems() {
+        return totalItems;
+    }
+
+    // Display function (partially visible in the second image)
+    void display() {
+        std::cout << "Product Name: " << productName << std::endl;
+        std::cout << "Total items: " << totalItems << std::endl;
     }
 };
 
+// Footer Snippet (combined and completed)
 int main() {
-    // 1. Create an object of the class
-    RestaurantMenu menu;
+    OnlineShop shop;
+    
+    // The main function reads the product name first (string)
+    std::string productName;
+    std::getline(std::cin, productName); // Read entire line for product name
+    shop.setProductName(productName);    // Set the product name in the object
 
-    // 2. Input the Menu Name (string)
-    // The image snippet shows std::getline(std::cin, menu.menuName);
-    std::getline(std::cin, menu.menuName);
-
-    // 3. Input the Number of Menu Items (integer N)
-    // The image snippet shows std::cin >> menu.numItems;
-    std::cin >> menu.numItems;
-
-    // 4. Input the N float prices
-    float price;
-    for (int i = 0; i < menu.numItems; ++i) {
-        // Read the price from input
-        std::cin >> price; 
-        // Store the price in the array (as seen in the partial code)
-        menu.prices[i] = price;
+    // Then it reads three integers (a, b, c)
+    int itemsPurchased;
+    for (int i = 0; i < 3; ++i) {
+        // Reads one integer at a time (2, 5, 4 for Input 1)
+        if (!(std::cin >> itemsPurchased)) {
+            // Handle case where input might fail prematurely (optional)
+            break; 
+        }
+        // Accumulate the total
+        shop.calculateTotalItems(itemsPurchased);
     }
 
-    // 5. Output the results
-    
-    // Output 1: Menu Name
-    std::cout << "Menu Name: " << menu.menuName << std::endl;
+    // Output is handled by the display function or similar calls
+    // The footer snippet shows a different output structure, so we'll 
+    // adhere to the structure required by the *Output Format* and *Sample Cases*.
 
-    // Output 2: Average Price (formatted to 2 decimal places)
-    // The image snippet shows std::fixed and std::setprecision(2)
-    std::cout << "Average Price: " 
-              << std::fixed 
-              << std::setprecision(2) 
-              << menu.calculate() 
-              << std::endl;
+    // The output should be:
+    // Product Name: [Name]
+    // Total items: [Total]
+    
+    // The display() function is the cleanest way to produce this output.
+    shop.display();
+    
+    // Alternative structure from the partial footer snippet (Lines 19-21 in one image):
+    /*
+    int totalItems = shop.getTotalItems();
+    std::cout << "Product Name: " << shop.getProductName() << std::endl; 
+    std::cout << "Total items: " << totalItems << std::endl; 
+    */
 
     return 0;
 }
