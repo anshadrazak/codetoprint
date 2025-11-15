@@ -1,27 +1,29 @@
-class Product {
-private:
-    std::string name;
-    double price;
-    int quantity;
-    double total_price;
+#include <iostream>
+using namespace std;
+
+class OnlineShop {
+    string productName;
+    int a, b, c;
 
 public:
-    // Method to accept input and calculate total price
-    void input(std::string n, double p, int q) {
-        name = n;
-        price = p;
-        quantity = q;
-        // Calculate the total price
-        total_price = price * quantity;
+    void readData() {
+        cin >> productName;
+        cin >> a >> b >> c;
     }
 
-    // Method to display the product details
-    void display() const {
-        std::cout << "Product Name: " << name << std::endl;
-        
-        // Set up the output for two decimal places
-        std::cout << std::fixed << std::setprecision(2);
-        
-        std::cout << "Total Price: " << total_price << std::endl;
+    int totalItems() {
+        return a + b + c;
+    }
+
+    void display() {
+        cout << "Product Name: " << productName << endl;
+        cout << "Total items: " << totalItems();
     }
 };
+
+int main() {
+    OnlineShop obj;
+    obj.readData();
+    obj.display();
+    return 0;
+}
