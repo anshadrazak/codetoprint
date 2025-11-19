@@ -1,22 +1,21 @@
-class OnlineShop {
-private:
-    string productName;
-    int totalItems;
-
-public:
-    OnlineShop() {
-        totalItems = 0;
+#include <bits/stdc++.h>
+using namespace std;
+int main(){
+    ios::sync_with_stdio(false);
+    cin.tie(nullptr);
+    int n;
+    if(!(cin>>n)) return 0;
+    for(int i=0;i<n;++i){
+        int id; double hours, eff;
+        cin >> id >> hours >> eff;
+        double energy = (hours * eff) / 100.0;
+        string cls;
+        if (energy > 8.0) cls = "Excellent";
+        else if (energy >= 4.0) cls = "Not Bad";
+        else if (energy >= 2.0) cls = "Average";
+        else cls = "Poor";
+        cout << id << " " << fixed << setprecision(2) << energy << " " << cls;
+        if (i < n-1) cout << '\n';
     }
-
-    void initialize() {
-        totalItems = 0;
-    }
-
-    void calculateTotalItems(int items) {
-        totalItems += items;
-    }
-
-    int getTotalItems() {
-        return totalItems;
-    }
-};
+    return 0;
+}
