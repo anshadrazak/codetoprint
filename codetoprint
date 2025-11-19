@@ -1,7 +1,4 @@
 #include <iostream>
-#include <iomanip>
-#include <vector>
-#include <string>
 using namespace std;
 
 struct SolarPanel {
@@ -12,30 +9,28 @@ struct SolarPanel {
     string energyClassification;
 };
 
-string classify(double energyProduced) {
-    if (energyProduced >= 8.0)
-        return "Excellent";
-    else if (energyProduced >= 4.0)
-        return "Not Bad";
-    else if (energyProduced >= 2.0)
-        return "Average";
-    else
-        return "Poor";
-}
-
 int main() {
     int n;
     cin >> n;
-    vector<SolarPanel> panels(n);
-    for (int i = 0; i < n; i++) {
-        cin >> panels[i].panelID >> panels[i].hoursOfSunlight >> panels[i].efficiencyRating;
-        panels[i].energyProduced = (panels[i].hoursOfSunlight * panels[i].efficiencyRating) / 100.0;
-        panels[i].energyClassification = classify(panels[i].energyProduced);
+    SolarPanel panel[n];
+
+    for(int i = 0; i < n; i++) {
+        cin >> panel[i].panelID >> panel[i].hoursOfSunlight >> panel[i].efficiencyRating;
+
+        panel[i].energyProduced = panel[i].hoursOfSunlight * panel[i].efficiencyRating;
+
+        if(panel[i].energyProduced > 8.0)
+            panel[i].energyClassification = "Excellent";
+        else if(panel[i].energyProduced > 4.0)
+            panel[i].energyClassification = "Not Bad";
+        else if(panel[i].energyProduced > 2.0)
+            panel[i].energyClassification = "Average";
+        else
+            panel[i].energyClassification = "Poor";
     }
-    for (int i = 0; i < n; i++) {
-        cout << panels[i].panelID << " "
-             << fixed << setprecision(2) << panels[i].energyProduced << " "
-             << panels[i].energyClassification << endl;
+
+    for(int i = 0; i < n; i++) {
+        cout << panel[i].panelID << " " << panel[i].energyProduced << " " << panel[i].energyClassification << endl;
     }
     return 0;
 }
