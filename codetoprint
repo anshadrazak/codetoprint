@@ -1,41 +1,36 @@
-void insert(Node*& header, int newData) {
-    Node* newNode = createNode(newData);
-
-    // Case 1: First actual node
-    if (header->next == nullptr) {
-        header->next = newNode;
-        newNode->next = header;   // circular link
-        return;
+NODE deleteFromFront(NODE head) {
+    if (head->link == head) { 
+        // List empty
+        cout << "List is empty." << endl;
+        return head;
     }
 
-    // Case 2: Insert at end of circular list
-    Node* temp = header->next;
-    while (temp->next != header) {  
-        temp = temp->next;
-    }
+    NODE first = head->link;     // First real node
+    head->link = first->link;    // Skip the first node
+    delete first;
 
-    temp->next = newNode;
-    newNode->next = header;
+    return head;
 }
 
-void printAlternateNodes(Node* header) {
-    if (header->next == nullptr) {
-        cout << "Linked List is empty" << endl;
-        return;
+NODE deleteFromEnd(NODE head) {
+    if (head->link == head) {
+        // List empty
+        cout << "List is empty." << endl;
+        return head;
     }
 
-    Node* current = header->next;
-    int index = 0;
+    NODE cur = head->link;
+    NODE prev = head;
 
-    cout << "Alternate Nodes: ";
+    // Traverse until cur is last node (next is head)
+    while (cur->link != head) {
+        prev = cur;
+        cur = cur->link;
+    }
 
-    do {
-        if (index % 2 == 0) {
-            cout << current->data << " ";
-        }
-        current = current->next;
-        index++;
-    } while (current != header);
+    // cur is last node
+    prev->link = head;   // Remove last node
+    delete cur;
 
-    cout << endl;
+    return head;
 }
