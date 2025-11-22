@@ -1,63 +1,41 @@
-NODE insertAtEnd(NODE head, int item) {
-    NODE newNode = getnode();
-    newNode->data = item;
-    if (head == nullptr) {
-        newNode->link = newNode;
-        return newNode;
+void insert(Node*& header, int newData) {
+    Node* newNode = createNode(newData);
+
+    // Case 1: First actual node
+    if (header->next == nullptr) {
+        header->next = newNode;
+        newNode->next = header;   // circular link
+        return;
     }
 
-    NODE temp = head;
-    while (temp->link != head) {
-        temp = temp->link;
+    // Case 2: Insert at end of circular list
+    Node* temp = header->next;
+    while (temp->next != header) {  
+        temp = temp->next;
     }
 
-    temp->link = newNode;
-    newNode->link = head;
-    return head;
+    temp->next = newNode;
+    newNode->next = header;
 }
 
-NODE deleteAtPosition(NODE head, int position) {
-    if (head == nullptr) {
-        cout << "Invalid position." << endl;
-        return head;
+void printAlternateNodes(Node* header) {
+    if (header->next == nullptr) {
+        cout << "Linked List is empty" << endl;
+        return;
     }
 
-    NODE temp = head;
+    Node* current = header->next;
+    int index = 0;
 
-    // deleting at position 1 (head)
-    if (position == 1) {
-        if (temp->link == head) { 
-            delete temp;
-            return nullptr;
+    cout << "Alternate Nodes: ";
+
+    do {
+        if (index % 2 == 0) {
+            cout << current->data << " ";
         }
+        current = current->next;
+        index++;
+    } while (current != header);
 
-        while (temp->link != head) {
-            temp = temp->link;
-        }
-
-        NODE toDelete = head;
-        head = head->link;
-        temp->link = head;
-        delete toDelete;
-        return head;
-    }
-
-    // moving to (position - 1)
-    for (int i = 1; i < position - 1; i++) {
-        temp = temp->link;
-        if (temp->link == head) {
-            cout << "Invalid position." << endl;
-            return head;
-        }
-    }
-
-    NODE toDelete = temp->link;
-    if (toDelete == head) {
-        cout << "Invalid position." << endl;
-        return head;
-    }
-
-    temp->link = toDelete->link;
-    delete toDelete;
-    return head;
+    cout << endl;
 }
