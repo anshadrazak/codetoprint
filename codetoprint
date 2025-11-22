@@ -1,14 +1,17 @@
 Message* reverseInsertedMessages(Message* head) {
+    // empty list
     if (head == nullptr) return nullptr;
 
-    // Step 1: Break circular link
+    // find last node (so we can break the circle)
     Message* last = head;
     while (last->next != head) {
         last = last->next;
     }
-    last->next = nullptr;  // now it's a normal list
 
-    // Step 2: Reverse normal singly linked list
+    // break the circular link -> convert to normal singly linked list
+    last->next = nullptr;
+
+    // reverse the singly linked list
     Message* prev = nullptr;
     Message* curr = head;
     Message* next = nullptr;
@@ -20,16 +23,15 @@ Message* reverseInsertedMessages(Message* head) {
         curr = next;
     }
 
-    // prev is new head (reversed list)
-
-    // Step 3: Make it circular again
+    // prev is the head of the reversed list
     Message* newHead = prev;
-    Message* tail = newHead;
 
-    while (tail->next != nullptr) {
-        tail = tail->next;
+    // restore circular property: find tail of reversed list and point it to newHead
+    if (newHead != nullptr) {
+        Message* tail = newHead;
+        while (tail->next != nullptr) tail = tail->next;
+        tail->next = newHead;
     }
-    tail->next = newHead; // circular again
 
-    return newHead;   // ⭐ give reversed head to display
+    return newHead;
 }
