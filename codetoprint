@@ -1,100 +1,39 @@
 #include <iostream>
 using namespace std;
 
-struct Node {
-    int data;
-    Node* next;
+struct link {
+    int info;
+    link* next;
 };
 
-// append value at end
-void insertNode(Node** head, int value) {
-    Node* newnode = new Node();
-    newnode->data = value;
-    newnode->next = nullptr;
-
-    if (*head == nullptr) {
-        *head = newnode;
-        return;
-    }
-    Node* t = *head;
-    while (t->next) t = t->next;
-    t->next = newnode;
+struct link* create_header_list(int data) {
+    link* newNode = new link();
+    newNode->info = data;
+    newNode->next = NULL;
+    return newNode;
 }
 
-void displayLinkedList(Node* head) {
-    if (!head) {
-        // If the judge expects a specific empty behaviour, adjust here.
-        cout << endl;
-        return;
-    }
-    bool first = true;
-    while (head) {
-        if (!first) cout << " ";
-        cout << head->data;
-        first = false;
-        head = head->next;
-    }
-    cout << endl;
-}
+struct link* insertData(link* start, int data) {
+    link* newNode = new link();
+    newNode->info = data;
+    newNode->next = NULL;
 
-// delete the second-last node (node before the last)
-// modifies head pointer if necessary
-void deleteSecondLastNode(Node** headRef) {
-    if (headRef == nullptr) return;
-    Node* head = *headRef;
-    if (head == nullptr) return;            // empty
-    if (head->next == nullptr) return;      // single node -> nothing to remove
-
-    // two nodes -> remove the first (which is the second-last)
-    if (head->next->next == nullptr) {
-        Node* del = head;
-        *headRef = head->next;
-        delete del;
-        return;
-    }
-
-    // 3 or more nodes: find node 'prev' such that prev->next is second-last
-    Node* prev = head;
-    while (prev->next->next != nullptr && prev->next->next->next != nullptr) {
-        prev = prev->next;
-    }
-    // after loop: prev->next->next != nullptr (last exists) and prev->next is second-last
-    // remove prev->next
-    Node* del = prev->next;
-    prev->next = del->next;
-    delete del;
-}
-
-int main() {
-    Node* head = nullptr;
-    int size;
-    if (!(cin >> size)) return 0;
-
-    for (int i = 0; i < size; ++i) {
-        int value;
-        cin >> value;
-        insertNode(&head, value);
-    }
-
-    cout << "Original Linked List: ";
-    displayLinkedList(head);
-
-    deleteSecondLastNode(&head);
-
-    cout << "Updated Linked List: ";
-    if (head == nullptr) {
-        // If list becomes empty, print nothing after the label (matches many judge formats)
-        cout << endl;
+    if (start == NULL) {
+        start = newNode;
     } else {
-        displayLinkedList(head);
+        link* temp = start;
+        while (temp->next != NULL)
+            temp = temp->next;
+        temp->next = newNode;
     }
+    return start;
+}
 
-    // free remaining nodes (good practice)
-    while (head) {
-        Node* t = head;
-        head = head->next;
-        delete t;
+struct link* display(link* start) {
+    link* temp = start;
+    while (temp != NULL) {
+        cout << temp->info << " ";
+        temp = temp->next;
     }
-
-    return 0;
+    return start;
 }
