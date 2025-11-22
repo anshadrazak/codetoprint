@@ -1,3 +1,4 @@
+
 #include <iostream>
 using namespace std;
 
@@ -10,34 +11,33 @@ struct Node {
 
 int main() {
     int n;
-    // Reading the number of elements
     cin >> n;
 
     Node* head = NULL;
     Node* tail = NULL;
 
-    // Insertion loop to build the Doubly Linked List (Head -> Tail)
+    // Insertion loop (Appends to the tail, building the list: 47 -> 39 -> 24 -> 16)
     for (int i = 0; i < n; i++) {
         int x;
         cin >> x;
         Node* newNode = new Node;
         newNode->data = x;
         newNode->next = NULL;
-        newNode->prev = tail; // Link new node back to current tail
+        newNode->prev = tail; 
         
         if (tail) {
-            tail->next = newNode; // Link current tail forward to new node
+            tail->next = newNode;
         } else {
-            head = newNode; // If list was empty, new node is the head
+            head = newNode;
         }
-        tail = newNode; // Update tail to the new node
+        tail = newNode;
     }
 
     int p;
-    // Reading the position to delete
+    // Position to delete
     cin >> p;
 
-    // --- Output Before Deletion (CORRECTED: Head -> Tail) ---
+    // --- Output Before Deletion (Prints: Head -> Tail) ---
     cout << "Before deletion: " << endl;
     Node* t = head;
     while (t) {
@@ -50,7 +50,7 @@ int main() {
     
     // Safety check: Invalid position or empty list
     if (p <= 0 || head == nullptr) {
-        // Position invalid or list empty. No action needed.
+        // No action needed.
     }
     
     // Case 1: Deleting the Head (p = 1)
@@ -58,7 +58,7 @@ int main() {
         Node* d = head;
         head = head->next;
         if (head) {
-            head->prev = NULL; // New head's prev is NULL
+            head->prev = NULL; 
         } else {
             tail = NULL; // List is now empty
         }
@@ -101,7 +101,7 @@ int main() {
         }
     } 
     
-    // --- Output After Deletion (CORRECTED: Head -> Tail) ---
+    // --- Output After Deletion (Prints: Head -> Tail) ---
     cout << "After deletion: " << endl;
     t = head;
     while (t) {
