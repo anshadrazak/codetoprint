@@ -1,36 +1,123 @@
-void deleteSecondLastNode(Node** head) {
-    // 1. Handle edge cases where deletion is impossible (0 or 1 node)
-    if (*head == nullptr || (*head)->next == nullptr) {
-        return;
+#include <iostream>
+using namespace std;
+
+// Node structure
+struct Node {
+    int data;
+    Node* next;
+    Node* prev;
+};
+
+int main() {
+    int n;
+    cin >> n;
+
+    Node* head = NULL;
+    Node* tail = NULL;
+
+    // Insertion loop (Correctly builds the doubly linked list)
+    for (int i = 0; i < n; i++) {
+        int x;
+        cin >> x;
+        Node* newNode = new Node;
+        newNode->data = x;
+        newNode->next = NULL;
+        newNode->prev = tail;
+        
+        if (tail) {
+            tail->next = newNode;
+        } else {
+            head = newNode;
+        }
+        tail = newNode;
     }
 
-    // 2. Handle the case where the list has exactly two nodes (delete the head)
-    // List: [A] -> [B] -> nullptr. Second-to-last is A (the head).
-    if ((*head)->next->next == nullptr) {
-        Node* temp = *head; 
-        *head = (*head)->next; 
-        delete temp;
-        return;
+    int p;
+    cin >> p;
+
+    cout << "Before deletion: " << endl;
+    Node* t = tail;
+    while (t) {
+        cout << t->data << " ";
+        t = t->prev;
+    }
+    cout << endl;
+
+    // --- DELETION LOGIC STARTS HERE ---
+    
+    // Check if the position 'p' is valid (must be positive)
+    if (p <= 0 || head == nullptr) {
+        // Handle invalid input or empty list
+    }
+    
+    // Case 1: Deleting the Head (p = 1)
+    else if (p == 1) {
+        Node* d = head;
+        head = head->next;
+        if (head) {
+            head->prev = NULL;
+        } else {
+            // List is now empty
+            tail = NULL;
+        }
+        delete d;
+    } 
+    
+    // Case 2: Deleting a Middle or Tail Node (p > 1)
+    else {
+        Node* cur = head;
+        
+        // Traverse 'cur' to the node at position 'p'
+        for (int i = 1; i < p && cur != nullptr; i++) {
+            cur = cur->next;
+        }
+
+        // Check if the requested position 'p' was valid (i.e., 'cur' is not NULL)
+        if (cur == nullptr) {
+            // Position p is out of bounds
+            // cout << "Error: Position out of bounds." << endl;
+            // You can decide whether to return or continue based on problem specs
+            return 0; // Exit main or handle the error
+        }
+        
+        Node* d = cur; // The node to delete
+
+        // Update the 'next' pointer of the PREVIOUS node
+        if (d->prev != nullptr) {
+            d->prev->next = d->next;
+        }
+
+        // Update the 'prev' pointer of the NEXT node
+        if (d->next != nullptr) {
+            d->next->prev = d->prev;
+        }
+
+        // Update the 'tail' pointer if the tail was deleted
+        if (d == tail) {
+            tail = d->prev;
+        }
+
+        // Free memory
+        delete d;
+    } 
+    
+    // --- DELETION LOGIC ENDS HERE ---
+    
+    cout << "After deletion: " << endl;
+    t = tail;
+    while (t) {
+        cout << t->data << " ";
+        t = t->prev;
+    }
+    cout << endl;
+
+    // Good practice: Clean up remaining list memory
+    Node* current = head;
+    while (current) {
+        Node* next = current->next;
+        delete current;
+        current = next;
     }
 
-    // 3. Handle the general case (3 or more nodes)
-    // We need 'current' to stop at the node *before* the second-to-last node.
-    // This node is the third-to-last node.
-    Node* current = *head;
-    
-    // Stop when 'current->next->next' is the last node.
-    // i.e., current->next->next->next is nullptr.
-    while (current->next->next->next != nullptr) {
-        current = current->next;
-    }
-    
-    // 'current' is now the 3rd-to-last node.
-    // 'nodeToDelete' is the 2nd-to-last node.
-    Node* nodeToDelete = current->next;
-    
-    // Link the 3rd-to-last node to the last node.
-    current->next = nodeToDelete->next; 
-    
-    // Free the memory
-    delete nodeToDelete;
+    return 0;
 }
