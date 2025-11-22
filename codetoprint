@@ -1,33 +1,29 @@
-Message* reverseInsertedMessages(Message* head) {
-    if (!head || head->next == head)
-        return head;
+NODE insertAtEnd(NODE head, int item) {
+    NODE temp = getnode();
+    temp->data = item;
 
-    // break the circle at head->next (the true beginning)
-    Message* start = head->next;
-    head->next = nullptr;
-
-    // reverse linear list: start -> ... -> head -> nullptr
-    Message* prev = nullptr;
-    Message* curr = start;
-    Message* next = nullptr;
-
-    while (curr != nullptr) {
-        next = curr->next;
-        curr->next = prev;
-        prev = curr;
-        curr = next;
+    if (head->link == head) {  // only header node exists
+        head->link = temp;
+        temp->link = head;
+    } else {
+        NODE curr = head->link;
+        while (curr->link != head) {
+            curr = curr->link;
+        }
+        curr->link = temp;
+        temp->link = head;
     }
 
-    // prev = new head
-    Message* newHead = prev;
+    head->data++;  // increase node count
+    return head;
+}
 
-    // find last node in reversed list
-    Message* last = newHead;
-    while (last->next != nullptr)
-        last = last->next;
+void display(NODE head) {
+    cout << "Number of nodes in the CLL is " << head->data << endl;
 
-    // make circular again
-    last->next = newHead;
-
-    return newHead;
+    NODE temp = head->link;
+    while (temp != head) {
+        cout << temp->data << " ";
+        temp = temp->link;
+    }
 }
