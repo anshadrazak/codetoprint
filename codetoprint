@@ -2,23 +2,32 @@ Message* reverseInsertedMessages(Message* head) {
     if (!head || head->next == head)
         return head;
 
+    // break the circle at head->next (the true beginning)
+    Message* start = head->next;
+    head->next = nullptr;
+
+    // reverse linear list: start -> ... -> head -> nullptr
     Message* prev = nullptr;
-    Message* curr = head;
+    Message* curr = start;
     Message* next = nullptr;
 
-    Message* start = head;
-
-    // reverse until we come back to start
-    do {
+    while (curr != nullptr) {
         next = curr->next;
         curr->next = prev;
         prev = curr;
         curr = next;
-    } while (curr != start);
+    }
 
-    // connect last node to new head
-    start->next = prev;
+    // prev = new head
+    Message* newHead = prev;
 
-    // prev is new head
-    return prev;
+    // find last node in reversed list
+    Message* last = newHead;
+    while (last->next != nullptr)
+        last = last->next;
+
+    // make circular again
+    last->next = newHead;
+
+    return newHead;
 }
