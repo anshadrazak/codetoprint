@@ -1,48 +1,36 @@
-#include <iostream>
-#include <string>
-using namespace std;
+// insert value at the end of the list
+void insert(struct Node **head, int value) {
+    if (value < 0) return; // guard (main won't call for negatives, but safe)
 
-struct Node {
-    string data;
-    Node* next;
-};
+    Node* newnode = new Node();
+    newnode->data = value;
+    newnode->next = NULL;
 
-void insertAtIndex(Node* &head, string data, int pos) {
-    Node* newNode = new Node{data, nullptr};
-    if (pos == 1) {
-        newNode->next = head;
-        head = newNode;
+    if (*head == NULL) {
+        *head = newnode;
         return;
     }
-    Node* temp = head;
-    for (int i = 1; temp != nullptr && i < pos - 1; ++i) {
-        temp = temp->next;
-    }
-    if (temp == nullptr) return; // position out of bounds
-    newNode->next = temp->next;
-    temp->next = newNode;
+
+    Node* temp = *head;
+    while (temp->next != NULL) temp = temp->next;
+    temp->next = newnode;
 }
 
-void displayList(Node* head) {
-    Node* temp = head;
-    while (temp) {
-        cout << temp->data;
-        if (temp->next) cout << " ";
-        temp = temp->next;
+// print list exactly as expected by tests
+void print(struct Node *head) {
+    if (head == NULL) {
+        cout << "Linked List is empty." << endl;
+        return;
+    }
+
+    cout << "Linked List: ";
+    Node* cur = head;
+    bool first = true;
+    while (cur != NULL) {
+        if (!first) cout << " ";
+        cout << cur->data;
+        first = false;
+        cur = cur->next;
     }
     cout << endl;
-}
-
-int main() {
-    int n;
-    cin >> n;
-    Node* head = nullptr;
-    for (int i = 0; i < n; ++i) {
-        string data;
-        int pos;
-        cin >> data >> pos;
-        insertAtIndex(head, data, pos);
-    }
-    displayList(head);
-    return 0;
 }
