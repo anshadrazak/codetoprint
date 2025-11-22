@@ -1,39 +1,39 @@
-#include <iostream>
-using namespace std;
-
-struct link {
-    int info;
-    link* next;
-};
-
-struct link* create_header_list(int data) {
-    link* newNode = new link();
-    newNode->info = data;
-    newNode->next = NULL;
-    return newNode;
-}
-
-struct link* insertData(link* start, int data) {
-    link* newNode = new link();
+struct link* create_header_list(int data)
+{
+    // Create new node
+    struct link* newNode = new link();
     newNode->info = data;
     newNode->next = NULL;
 
+    // If list is empty
     if (start == NULL) {
         start = newNode;
-    } else {
-        link* temp = start;
+    }
+    else {
+        // Insert at END
+        struct link* temp = start;
         while (temp->next != NULL)
             temp = temp->next;
         temp->next = newNode;
     }
+
     return start;
 }
 
-struct link* display(link* start) {
-    link* temp = start;
+struct link* display()
+{
+    struct link* temp = start;
+
+    // Print all nodes in one line separated by space
+    bool first = true;
     while (temp != NULL) {
-        cout << temp->info << " ";
+        if (!first) cout << " ";
+        cout << temp->info;
+        first = false;
         temp = temp->next;
     }
+
+    cout << endl;
+
     return start;
 }
