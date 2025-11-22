@@ -1,22 +1,24 @@
 Message* reverseInsertedMessages(Message* head) {
-    if (head == nullptr || head->next == head)
+    if (!head || head->next == head)
         return head;
 
     Message* prev = nullptr;
     Message* curr = head;
     Message* next = nullptr;
 
-    // Because circular, loop until we return to head
+    Message* start = head;
+
+    // reverse until we come back to start
     do {
         next = curr->next;
         curr->next = prev;
         prev = curr;
         curr = next;
-    } while (curr != head);
+    } while (curr != start);
 
-    // Now 'head' should point to last processed node
-    head->next = prev;
+    // connect last node to new head
+    start->next = prev;
 
-    // new head is 'prev'
+    // prev is new head
     return prev;
 }
