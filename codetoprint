@@ -1,7 +1,7 @@
 #include <iostream>
 using namespace std;
 
-// Node structure
+// Node structure for a Doubly Linked List
 struct Node {
     int data;
     Node* next;
@@ -10,44 +10,47 @@ struct Node {
 
 int main() {
     int n;
+    // Reading the number of elements
     cin >> n;
 
     Node* head = NULL;
     Node* tail = NULL;
 
-    // Insertion loop (Correctly builds the doubly linked list)
+    // Insertion loop to build the Doubly Linked List (Head -> Tail)
     for (int i = 0; i < n; i++) {
         int x;
         cin >> x;
         Node* newNode = new Node;
         newNode->data = x;
         newNode->next = NULL;
-        newNode->prev = tail;
+        newNode->prev = tail; // Link new node back to current tail
         
         if (tail) {
-            tail->next = newNode;
+            tail->next = newNode; // Link current tail forward to new node
         } else {
-            head = newNode;
+            head = newNode; // If list was empty, new node is the head
         }
-        tail = newNode;
+        tail = newNode; // Update tail to the new node
     }
 
     int p;
+    // Reading the position to delete
     cin >> p;
 
+    // --- Output Before Deletion (CORRECTED: Head -> Tail) ---
     cout << "Before deletion: " << endl;
-    Node* t = tail;
+    Node* t = head;
     while (t) {
         cout << t->data << " ";
-        t = t->prev;
+        t = t->next;
     }
     cout << endl;
 
-    // --- DELETION LOGIC STARTS HERE ---
+    // --- DELETION LOGIC ---
     
-    // Check if the position 'p' is valid (must be positive)
+    // Safety check: Invalid position or empty list
     if (p <= 0 || head == nullptr) {
-        // Handle invalid input or empty list
+        // Position invalid or list empty. No action needed.
     }
     
     // Case 1: Deleting the Head (p = 1)
@@ -55,10 +58,9 @@ int main() {
         Node* d = head;
         head = head->next;
         if (head) {
-            head->prev = NULL;
+            head->prev = NULL; // New head's prev is NULL
         } else {
-            // List is now empty
-            tail = NULL;
+            tail = NULL; // List is now empty
         }
         delete d;
     } 
@@ -72,46 +74,43 @@ int main() {
             cur = cur->next;
         }
 
-        // Check if the requested position 'p' was valid (i.e., 'cur' is not NULL)
+        // Check if the requested position 'p' was valid
         if (cur == nullptr) {
-            // Position p is out of bounds
-            // cout << "Error: Position out of bounds." << endl;
-            // You can decide whether to return or continue based on problem specs
-            return 0; // Exit main or handle the error
-        }
-        
-        Node* d = cur; // The node to delete
+            // Position p is out of bounds. No action needed.
+            
+        } else {
+            Node* d = cur; // The node to delete
 
-        // Update the 'next' pointer of the PREVIOUS node
-        if (d->prev != nullptr) {
-            d->prev->next = d->next;
-        }
+            // 1. Update the 'next' pointer of the PREVIOUS node
+            if (d->prev != nullptr) {
+                d->prev->next = d->next;
+            }
 
-        // Update the 'prev' pointer of the NEXT node
-        if (d->next != nullptr) {
-            d->next->prev = d->prev;
-        }
+            // 2. Update the 'prev' pointer of the NEXT node
+            if (d->next != nullptr) {
+                d->next->prev = d->prev;
+            }
 
-        // Update the 'tail' pointer if the tail was deleted
-        if (d == tail) {
-            tail = d->prev;
-        }
+            // 3. Update the 'tail' pointer if the tail was deleted
+            if (d == tail) {
+                tail = d->prev;
+            }
 
-        // Free memory
-        delete d;
+            // 4. Free memory
+            delete d;
+        }
     } 
     
-    // --- DELETION LOGIC ENDS HERE ---
-    
+    // --- Output After Deletion (CORRECTED: Head -> Tail) ---
     cout << "After deletion: " << endl;
-    t = tail;
+    t = head;
     while (t) {
         cout << t->data << " ";
-        t = t->prev;
+        t = t->next;
     }
     cout << endl;
 
-    // Good practice: Clean up remaining list memory
+    // Clean up remaining list memory
     Node* current = head;
     while (current) {
         Node* next = current->next;
