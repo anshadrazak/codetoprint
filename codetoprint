@@ -1,33 +1,11 @@
-void insertNode(Node** head, int data) {
-    // 1. Create a new Node
-    Node* newNode = new Node;
-    newNode->data = data;
-    newNode->next = nullptr; 
-
-    // 2. If the list is empty, make the new node the head
-    if (*head == nullptr) {
-        *head = newNode;
-        return;
-    }
-
-    // 3. Traverse to the last node
-    Node* current = *head;
-    while (current->next != nullptr) {
-        current = current->next;
-    }
-
-    // 4. Link the last node to the new node
-    current->next = newNode;
-}
-
-// 2. deleteSecondLastNode function
 void deleteSecondLastNode(Node** head) {
-    // Case 1: List is empty or has only one node
+    // 1. Handle edge cases where deletion is impossible (0 or 1 node)
     if (*head == nullptr || (*head)->next == nullptr) {
         return;
     }
 
-    // Case 2: List has exactly two nodes (delete the head)
+    // 2. Handle the case where the list has exactly two nodes (delete the head)
+    // List: [A] -> [B] -> nullptr. Second-to-last is A (the head).
     if ((*head)->next->next == nullptr) {
         Node* temp = *head; 
         *head = (*head)->next; 
@@ -35,32 +13,24 @@ void deleteSecondLastNode(Node** head) {
         return;
     }
 
-    // Case 3: List has three or more nodes
-    // 'current' will stop at the node *before* the second-to-last node (third-to-last).
+    // 3. Handle the general case (3 or more nodes)
+    // We need 'current' to stop at the node *before* the second-to-last node.
+    // This node is the third-to-last node.
     Node* current = *head;
     
-    // Check two steps ahead: if 'next->next->next' is nullptr, then 'next->next' is the last node.
-    // 'current->next' is the second-to-last node.
+    // Stop when 'current->next->next' is the last node.
+    // i.e., current->next->next->next is nullptr.
     while (current->next->next->next != nullptr) {
         current = current->next;
     }
     
-    // 'nodeToDelete' is the second-to-last node
+    // 'current' is now the 3rd-to-last node.
+    // 'nodeToDelete' is the 2nd-to-last node.
     Node* nodeToDelete = current->next;
     
-    // Skip the nodeToDelete
+    // Link the 3rd-to-last node to the last node.
     current->next = nodeToDelete->next; 
     
     // Free the memory
     delete nodeToDelete;
-}
-
-// 3. displayLinkedList function
-void displayLinkedList(Node* head) {
-    Node* current = head;
-    while (current != nullptr) {
-        std::cout << current->data << " ";
-        current = current->next;
-    }
-    std::cout << std::endl;
 }
