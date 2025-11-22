@@ -9,41 +9,42 @@ void insertNode(Node** head_ref, int data) {
     }
 
     Node* temp = *head_ref;
-    while (temp->next != nullptr) {
-        temp = temp->next;
-    }
+    while (temp->next != nullptr) temp = temp->next;
     temp->next = newNode;
 }
 
 void printList(Node* head) {
     Node* temp = head;
+    bool first = true;
     while (temp != nullptr) {
+        if (!first) cout << " ";
         cout << temp->data;
-        if (temp->next != nullptr) cout << " ";
+        first = false;
         temp = temp->next;
     }
 }
 
-void swapPairwise(Node*& head) {
-    if (head == nullptr || head->next == nullptr)
-        return;
+Node* leftShiftLinkedList(Node* head, int k) {
+    if (head == nullptr || head->next == nullptr || k == 0) return head;
 
-    Node* prev = nullptr;
-    Node* curr = head;
+    // compute length
+    int len = 0;
+    Node* t = head;
+    while (t) { len++; t = t->next; }
+    k = k % len;
+    if (k == 0) return head;
 
-    head = curr->next; // New head after first swap
+    // find k-th node
+    Node* cur = head;
+    for (int i = 1; i < k; ++i) cur = cur->next;
 
-    while (curr != nullptr && curr->next != nullptr) {
-        Node* nextPair = curr->next->next;
-        Node* second = curr->next;
+    Node* newHead = cur->next;
+    cur->next = nullptr;
 
-        second->next = curr;
-        curr->next = nextPair;
+    // find tail of newHead part
+    Node* tail = newHead;
+    while (tail->next != nullptr) tail = tail->next;
+    tail->next = head;
 
-        if (prev != nullptr)
-            prev->next = second;
-
-        prev = curr;
-        curr = nextPair;
-    }
+    return newHead;
 }
