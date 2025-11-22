@@ -1,63 +1,45 @@
-#include <iostream>
-#include <string>
-using namespace std;
-
-struct Node {
-    string data;
-    Node* next;
-};
-
-void insertNode(Node** head, string data, int pos) {
+void insertNode(Node** head_ref, int data) {
     Node* newNode = new Node();
     newNode->data = data;
-    newNode->next = NULL;
+    newNode->next = nullptr;
 
-    if (pos == 1) {
-        newNode->next = *head;
-        *head = newNode;
+    if (*head_ref == nullptr) {
+        *head_ref = newNode;
         return;
     }
 
-    Node* temp = *head;
-    int count = 1;
-
-    while (temp != NULL && count < pos-1) {
+    Node* temp = *head_ref;
+    while (temp->next != nullptr) {
         temp = temp->next;
-        count++;
     }
-
-    if (temp != NULL) {
-        newNode->next = temp->next;
-        temp->next = newNode;
-    }
+    temp->next = newNode;
 }
 
-void displayList(Node* head) {
+int getLinkedListSize(Node* head) {
+    int count = 0;
     Node* temp = head;
-    while (temp != NULL) {
-        cout << temp->data;
-        if (temp->next != NULL) cout << " ";
+    while (temp != nullptr) {
+        count++;
         temp = temp->next;
     }
+    return count;
 }
 
-int main() {
-    int n, pos;
-    string data;
-    Node* head = nullptr;
+int sumOfLastNNodes(Node* head, int n) {
+    int size = getLinkedListSize(head);
+    int skip = size - n;
 
-    cin >> n;
-
-    for (int i = 1; i <= n; i++) {
-        cin >> data;
-        insertNode(&head, data, i);
+    Node* temp = head;
+    while (skip > 0) {
+        temp = temp->next;
+        skip--;
     }
 
-    cin >> data >> pos;
+    int sum = 0;
+    while (temp != nullptr) {
+        sum += temp->data;
+        temp = temp->next;
+    }
 
-    insertNode(&head, data, pos);
-
-    displayList(head);
-
-    return 0;
+    return sum;
 }
