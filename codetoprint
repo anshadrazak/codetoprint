@@ -18,8 +18,8 @@ link* create_header_list(int data) {
 void display() {
     link* temp = start;
     while (temp != NULL) {
-        cout << temp->info << " ";
+        std::cout << temp->info << " ";
         temp = temp->next;
     }
-    cout << endl;
+    std::cout << std::endl;
 }
