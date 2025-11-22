@@ -2,7 +2,6 @@ NODE insertAtEnd(NODE head, int item) {
     NODE temp = getnode();
     temp->data = item;
 
-    // If only header exists (empty list)
     if (head->link == head) {
         head->link = temp;
         temp->link = head;
@@ -16,7 +15,7 @@ NODE insertAtEnd(NODE head, int item) {
         temp->link = head;
     }
 
-    head->data++;   // increase node count
+    head->data++;   
     return head;
 }
 
