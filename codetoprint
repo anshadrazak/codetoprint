@@ -1,22 +1,23 @@
 void insertNode(Node** head_ref, int data) {
-    Node* newNode = new Node();
-    newNode->data = data;
-    newNode->next = nullptr;
+    Node* newNode = createNode(data);
 
-    if (*head_ref == nullptr) {
+    if (*head_ref == NULL) {
         *head_ref = newNode;
         return;
     }
 
     Node* temp = *head_ref;
-    while (temp->next != nullptr) temp = temp->next;
+    while (temp->next != NULL) {
+        temp = temp->next;
+    }
     temp->next = newNode;
 }
 
 void printList(Node* head) {
     Node* temp = head;
     bool first = true;
-    while (temp != nullptr) {
+
+    while (temp != NULL) {
         if (!first) cout << " ";
         cout << temp->data;
         first = false;
@@ -25,25 +26,33 @@ void printList(Node* head) {
 }
 
 Node* leftShiftLinkedList(Node* head, int k) {
-    if (head == nullptr || head->next == nullptr || k == 0) return head;
+    if (head == NULL || head->next == NULL || k == 0)
+        return head;
 
-    // compute length
+    // Count length
     int len = 0;
-    Node* t = head;
-    while (t) { len++; t = t->next; }
+    Node* temp = head;
+    while (temp != NULL) {
+        len++;
+        temp = temp->next;
+    }
+
     k = k % len;
     if (k == 0) return head;
 
-    // find k-th node
-    Node* cur = head;
-    for (int i = 1; i < k; ++i) cur = cur->next;
+    // Traverse to k-th node
+    Node* curr = head;
+    for (int i = 1; i < k; i++) {
+        curr = curr->next;
+    }
 
-    Node* newHead = cur->next;
-    cur->next = nullptr;
+    Node* newHead = curr->next;
+    curr->next = NULL;
 
-    // find tail of newHead part
+    // Attach old head at the end of new list
     Node* tail = newHead;
-    while (tail->next != nullptr) tail = tail->next;
+    while (tail->next != NULL) tail = tail->next;
+
     tail->next = head;
 
     return newHead;
