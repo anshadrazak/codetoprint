@@ -1,36 +1,22 @@
 Message* reverseInsertedMessages(Message* head) {
-    if (head == nullptr || head->next == head) {
-        return head; // empty or only one node
-    }
+    if (head == nullptr || head->next == head)
+        return head;
 
     Message* prev = nullptr;
     Message* curr = head;
     Message* next = nullptr;
 
-    Message* last = head; 
-    // find last node (its next is head)
-    while (last->next != head) {
-        last = last->next;
-    }
-
-    // break circular temporarily
-    last->next = nullptr;
-
-    // reverse normal singly linked list
-    while (curr != nullptr) {
+    // Because circular, loop until we return to head
+    do {
         next = curr->next;
         curr->next = prev;
         prev = curr;
         curr = next;
-    }
+    } while (curr != head);
 
-    // prev is new head of reversed list
-    // make it circular again
-    Message* newLast = prev;
-    while (newLast->next != nullptr) {
-        newLast = newLast->next;
-    }
-    newLast->next = prev;
+    // Now 'head' should point to last processed node
+    head->next = prev;
 
+    // new head is 'prev'
     return prev;
 }
