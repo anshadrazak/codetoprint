@@ -1,39 +1,36 @@
-struct link* create_header_list(int data)
-{
-    // Create new node
-    struct link* newNode = new link();
-    newNode->info = data;
-    newNode->next = NULL;
+Message* reverseInsertedMessages(Message* head) {
 
-    // If list is empty
-    if (start == NULL) {
-        start = newNode;
+    if (head == nullptr) return nullptr;
+
+    // Break the circular structure
+    Message* last = head;
+    while (last->next != head) {
+        last = last->next;
     }
-    else {
-        // Insert at END
-        struct link* temp = start;
-        while (temp->next != NULL)
-            temp = temp->next;
-        temp->next = newNode;
-    }
+    last->next = nullptr;  // make list linear
 
-    return start;
-}
+    // Reverse the singly linked list
+    Message* prev = nullptr;
+    Message* curr = head;
+    Message* next = nullptr;
 
-struct link* display()
-{
-    struct link* temp = start;
-
-    // Print all nodes in one line separated by space
-    bool first = true;
-    while (temp != NULL) {
-        if (!first) cout << " ";
-        cout << temp->info;
-        first = false;
-        temp = temp->next;
+    while (curr != nullptr) {
+        next = curr->next;
+        curr->next = prev;
+        prev = curr;
+        curr = next;
     }
 
-    cout << endl;
+    // prev is new head (reversed)
 
-    return start;
+    // 🔥 REBUILD THE CIRCULAR LINK 🔥
+    Message* newHead = prev;
+    Message* tail = newHead;
+
+    while (tail->next != nullptr) {
+        tail = tail->next;
+    }
+    tail->next = newHead;  // make it circular again!
+
+    return newHead;  
 }
