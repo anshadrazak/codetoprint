@@ -30,33 +30,33 @@ int main() {
     cin >> p;
 
     cout << "Before deletion: ";
-    Node* temp = tail;
-    while (temp) {
-        cout << temp->data << " ";
-        temp = temp->prev;
+    Node* t = tail;
+    while (t) {
+        cout << t->data << " ";
+        t = t->prev;
     }
     cout << endl;
 
     if (p == 1) {
-        Node* del = head;
+        Node* d = head;
         head = head->next;
         if (head) head->prev = NULL;
         else tail = NULL;
-        delete del;
+        delete d;
     } else {
         Node* cur = head;
         for (int i = 1; i < p; i++) cur = cur->next;
-        Node* del = cur;
-        if (del->prev) del->prev->next = del->next;
-        if (del->next) del->next->prev = del->prev;
-        if (del == tail) tail = del->prev;
-        delete del;
+        Node* d = cur;
+        if (d->prev) d->prev->next = d->next;
+        if (d->next) d->next->prev = d->prev;
+        if (d == tail) tail = d->prev;
+        delete d;
     }
 
     cout << "After deletion: ";
-    temp = tail;
-    while (temp) {
-        cout << temp->data << " ";
-        temp = temp->prev;
+    t = tail;
+    while (t) {
+        cout << t->data << " ";
+        t = t->prev;
     }
 }
