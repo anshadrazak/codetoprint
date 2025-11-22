@@ -1,36 +1,36 @@
-NODE deleteFromFront(NODE head) {
-    if (head->link == head) {
-        cout << "List is empty." << endl;
-        return head;
+Message* reverseInsertedMessages(Message* head) {
+    if (head == nullptr || head->next == head) {
+        return head; // empty or only one node
     }
 
-    NODE first = head->link;
-    cout << "Deleted element: " << first->data << endl;
+    Message* prev = nullptr;
+    Message* curr = head;
+    Message* next = nullptr;
 
-    head->link = first->link;
-    delete first;
-
-    return head;
-}
-
-NODE deleteFromEnd(NODE head) {
-    if (head->link == head) {
-        cout << "List is empty." << endl;
-        return head;
+    Message* last = head; 
+    // find last node (its next is head)
+    while (last->next != head) {
+        last = last->next;
     }
 
-    NODE cur = head->link;
-    NODE prev = head;
+    // break circular temporarily
+    last->next = nullptr;
 
-    while (cur->link != head) {
-        prev = cur;
-        cur = cur->link;
+    // reverse normal singly linked list
+    while (curr != nullptr) {
+        next = curr->next;
+        curr->next = prev;
+        prev = curr;
+        curr = next;
     }
 
-    cout << "Deleted element: " << cur->data << endl;
+    // prev is new head of reversed list
+    // make it circular again
+    Message* newLast = prev;
+    while (newLast->next != nullptr) {
+        newLast = newLast->next;
+    }
+    newLast->next = prev;
 
-    prev->link = head;
-    delete cur;
-
-    return head;
+    return prev;
 }
