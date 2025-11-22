@@ -1,30 +1,29 @@
-NODE insertAtEnd(NODE head, int item) {
-    NODE temp = getnode();
-    temp->data = item;
+link* create_header_list(int data) {
+    link* newnode = new link();
+    newnode->info = data;
+    newnode->next = nullptr;
 
-    if (head->link == head) {
-        head->link = temp;
-        temp->link = head;
-    }
-    else {
-        NODE curr = head->link;
-        while (curr->link != head) {
-            curr = curr->link;
+    if (start == nullptr) {
+        start = newnode;
+    } else {
+        link* temp = start;
+        while (temp->next != nullptr) {
+            temp = temp->next;
         }
-        curr->link = temp;
-        temp->link = head;
+        temp->next = newnode;
     }
 
-    head->data++;   
-    return head;
+    return newnode;
 }
 
-void display(NODE head) {
-    cout << "Number of nodes in the CLL is " << head->data << endl;
+// Count nodes
+int display() {
+    int count = 0;
+    link* head = start;
 
-    NODE temp = head->link;
-    while (temp != head) {
-        cout << temp->data << " ";
-        temp = temp->link;
+    while (head != nullptr) {
+        count++;
+        head = head->next;
     }
+    return count;
 }
