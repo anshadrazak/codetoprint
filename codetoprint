@@ -1,34 +1,11 @@
 Message* reverseInsertedMessages(Message* head) {
-
     if (head == nullptr) return nullptr;
 
-    // Break the circular structure
-    Message* last = head;
-    while (last->next != head) {
-        last = last->next;
-    }
-    last->next = nullptr;  // make list linear
+    // The real list starts from head->next
+    Message* first = head->next;
 
-    // Reverse the singly linked list
-    Message* prev = nullptr;
-    Message* curr = head;
-    Message* next = nullptr;
-
-    while (curr != nullptr) {
-        next = curr->next;
-        curr->next = prev;
-        prev = curr;
-        curr = next;
-    }
-
-    // prev is new head (reversed)
-
-    // 🔥 REBUILD THE CIRCULAR LINK 🔥
-    Message* newHead = prev;
-    Message* tail = newHead;
-
-    while (tail->next != nullptr) {
-        tail = tail->next;
+    return first;  
+}
     }
     tail->next = newHead;  // make it circular again!
 
