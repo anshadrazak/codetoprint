@@ -1,37 +1,62 @@
-Message* reverseInsertedMessages(Message* head) {
-    // empty list
-    if (head == nullptr) return nullptr;
+#include <iostream>
+using namespace std;
 
-    // find last node (so we can break the circle)
-    Message* last = head;
-    while (last->next != head) {
-        last = last->next;
+struct Node {
+    int data;
+    Node* next;
+    Node* prev;
+};
+
+int main() {
+    int n;
+    cin >> n;
+
+    Node* head = NULL;
+    Node* tail = NULL;
+
+    for (int i = 0; i < n; i++) {
+        int x;
+        cin >> x;
+        Node* newNode = new Node;
+        newNode->data = x;
+        newNode->next = NULL;
+        newNode->prev = tail;
+        if (tail) tail->next = newNode;
+        else head = newNode;
+        tail = newNode;
     }
 
-    // break the circular link -> convert to normal singly linked list
-    last->next = nullptr;
+    int p;
+    cin >> p;
 
-    // reverse the singly linked list
-    Message* prev = nullptr;
-    Message* curr = head;
-    Message* next = nullptr;
+    cout << "Before deletion: ";
+    Node* temp = tail;
+    while (temp) {
+        cout << temp->data << " ";
+        temp = temp->prev;
+    }
+    cout << endl;
 
-    while (curr != nullptr) {
-        next = curr->next;
-        curr->next = prev;
-        prev = curr;
-        curr = next;
+    if (p == 1) {
+        Node* del = head;
+        head = head->next;
+        if (head) head->prev = NULL;
+        else tail = NULL;
+        delete del;
+    } else {
+        Node* cur = head;
+        for (int i = 1; i < p; i++) cur = cur->next;
+        Node* del = cur;
+        if (del->prev) del->prev->next = del->next;
+        if (del->next) del->next->prev = del->prev;
+        if (del == tail) tail = del->prev;
+        delete del;
     }
 
-    // prev is the head of the reversed list
-    Message* newHead = prev;
-
-    // restore circular property: find tail of reversed list and point it to newHead
-    if (newHead != nullptr) {
-        Message* tail = newHead;
-        while (tail->next != nullptr) tail = tail->next;
-        tail->next = newHead;
+    cout << "After deletion: ";
+    temp = tail;
+    while (temp) {
+        cout << temp->data << " ";
+        temp = temp->prev;
     }
-
-    return newHead;
 }
