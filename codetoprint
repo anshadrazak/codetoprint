@@ -1,12 +1,13 @@
 NODE deleteFromFront(NODE head) {
-    if (head->link == head) { 
-        // List empty
+    if (head->link == head) {
         cout << "List is empty." << endl;
         return head;
     }
 
-    NODE first = head->link;     // First real node
-    head->link = first->link;    // Skip the first node
+    NODE first = head->link;
+    cout << "Deleted element: " << first->data << endl;
+
+    head->link = first->link;
     delete first;
 
     return head;
@@ -14,7 +15,6 @@ NODE deleteFromFront(NODE head) {
 
 NODE deleteFromEnd(NODE head) {
     if (head->link == head) {
-        // List empty
         cout << "List is empty." << endl;
         return head;
     }
@@ -22,14 +22,14 @@ NODE deleteFromEnd(NODE head) {
     NODE cur = head->link;
     NODE prev = head;
 
-    // Traverse until cur is last node (next is head)
     while (cur->link != head) {
         prev = cur;
         cur = cur->link;
     }
 
-    // cur is last node
-    prev->link = head;   // Remove last node
+    cout << "Deleted element: " << cur->data << endl;
+
+    prev->link = head;
     delete cur;
 
     return head;
