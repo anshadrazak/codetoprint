@@ -1,29 +1,25 @@
 link* create_header_list(int data) {
-    link* newnode = new link();
-    newnode->info = data;
-    newnode->next = nullptr;
+    link* new_node = new link();
+    new_node->info = data;
+    new_node->next = NULL;
 
-    if (start == nullptr) {
-        start = newnode;
+    if (start == NULL) {
+        start = new_node;
     } else {
         link* temp = start;
-        while (temp->next != nullptr) {
+        while (temp->next != NULL) {
             temp = temp->next;
         }
-        temp->next = newnode;
+        temp->next = new_node;
     }
-
-    return newnode;
+    return start;
 }
 
-// Count nodes
-int display() {
-    int count = 0;
-    link* head = start;
-
-    while (head != nullptr) {
-        count++;
-        head = head->next;
+void display() {
+    link* temp = start;
+    while (temp != NULL) {
+        cout << temp->info << " ";
+        temp = temp->next;
     }
-    return count;
+    cout << endl;
 }
