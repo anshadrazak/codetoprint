@@ -1,48 +1,79 @@
-Node* insertNode(Node* head, int data) {
-    Node* newNode = createNode(data);
+// 1. You are using GCC
 
-    if (head == NULL) return newNode;
+void insertNode(Node** head, int data) {
+    // Create the new node
+    Node* newNode = new Node;
+    newNode->data = data;
+    newNode->next = nullptr;
 
-    Node* temp = head;
-    while (temp->next != NULL) temp = temp->next;
-    temp->next = newNode;
+    // If the list is empty, the new node is the head
+    if (*head == nullptr) {
+        *head = newNode;
+        return;
+    }
 
-    return head;
-}
-
-Node* leftShiftLinkedList(Node* head, int k) {
-    if (head == NULL || head->next == NULL || k <= 0) return head;
-
-    // find length & last node
-    Node* last = head;
-    int length = 1;
-    while (last->next != NULL) {
+    // Traverse to the last node
+    Node* last = *head;
+    while (last->next != nullptr) {
         last = last->next;
-        length++;
     }
 
-    k = k % length;
-    if (k == 0) return head;
-
-    // make it circular
-    last->next = head;
-
-    // move to new last (k steps)
-    Node* newLast = head;
-    for (int i = 1; i < k; i++) {
-        newLast = newLast->next;
-    }
-
-    Node* newHead = newLast->next;
-    newLast->next = NULL;
-
-    return newHead;
+    // Insert the new node after the last node
+    last->next = newNode;
 }
 
-void printList(Node* head) {
-    while (head != NULL) {
-        cout << head->data << " ";
-        head = head->next;
+void deleteNodesInRange(Node** head, int start, int end) {
+    if (*head == nullptr || start > end || start < 1) {
+        return; // Invalid case or empty list
     }
-    cout << endl;
+
+    Node* current = *head;
+    Node* prev = nullptr;
+    int count = 1;
+
+    // --- Part 1: Traverse to the node *before* the start position ---
+    if (start > 1) {
+        // Find the node at position start - 1
+        while (current != nullptr && count < start) {
+            prev = current;
+            current = current->next;
+            count++;
+        }
+    }
+    
+    // If start position is out of bounds, no deletion is needed
+    if (current == nullptr && start > 1) {
+        return;
+    }
+
+    // --- Part 2: Delete nodes from the start position up to the end position ---
+    // 'current' is the first node to be deleted.
+    while (current != nullptr && count <= end) {
+        Node* temp = current; // Save node to be deleted
+        current = current->next;
+        delete temp; // Delete the node
+        count++;
+    }
+
+    // 'current' is now the node *after* the end position, or nullptr.
+
+    // --- Part 3: Link the remaining list segments ---
+    if (start == 1) {
+        // Deletion started at the head. Update the head pointer.
+        *head = current;
+    } else {
+        // Deletion happened in the middle. Link 'prev' to 'current'.
+        if (prev != nullptr) {
+            prev->next = current;
+        }
+    }
+}
+
+void displayLinkedList(Node* head) {
+    Node* current = head;
+    while (current != nullptr) {
+        cout << current->data << " ";
+        current = current->next;
+    }
+    // Note: The main function handles the line break
 }
