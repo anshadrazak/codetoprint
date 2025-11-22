@@ -1,16 +1,13 @@
-struct link;          // forward declaration
-extern link* start;   // use the global variable from header
-
-
-link* create_header_list(int data) {
-    link* new_node = new link();
+template<typename T = link>
+T* create_header_list(int data) {
+    T* new_node = new T();
     new_node->info = data;
     new_node->next = NULL;
 
     if (start == NULL) {
         start = new_node;
     } else {
-        link* temp = start;
+        T* temp = start;
         while (temp->next != NULL) {
             temp = temp->next;
         }
@@ -19,8 +16,9 @@ link* create_header_list(int data) {
     return start;
 }
 
+template<typename T = link>
 void display() {
-    link* temp = start;
+    T* temp = start;
     while (temp != NULL) {
         std::cout << temp->info << " ";
         temp = temp->next;
