@@ -1,30 +1,29 @@
-NODE insertAtEnd(NODE head, int item) {
-    NODE temp = getnode();
-    temp->data = item;
+#include <iostream>
+#include <fstream>
+using namespace std;
 
-    if (head->link == head) {
-        temp->link = head;
-        head->link = temp;
-        head->data++;
-        return head;
+int main() {
+    int numberCount;
+    cin >> numberCount;
+
+    // Step 1: Check if file is empty
+    ifstream checkFile("numbers.txt");
+
+    bool isEmpty = (checkFile.peek() == ifstream::traits_type::eof());
+    checkFile.close();
+
+    if (isEmpty) {
+        cout << "File is empty" << endl;
+        cout << "Adding " << numberCount << " numbers starting from 100" << endl;
+
+        ofstream updateFile("numbers.txt", ios::app);
+        for (int i = 100; i < 100 + numberCount; i++) {
+            updateFile << i << endl;
+        }
+        updateFile.close();
+
+        cout << "Success";
     }
 
-    NODE cur = head->link;
-    while (cur->link != head)
-        cur = cur->link;
-
-    cur->link = temp;
-    temp->link = head;
-    head->data++;
-    return head;
-}
-
-void display(NODE head) {
-    cout << "Number of nodes in the CLL is " << head->data << endl;
-    NODE cur = head->link;
-    if (cur == head) return;
-    do {
-        cout << cur->data << " ";
-        cur = cur->link;
-    } while (cur != head);
+    return 0;
 }
