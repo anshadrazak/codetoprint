@@ -1,66 +1,67 @@
-#include <bits/stdc++.h>
-#include <iostream>
-using namespace std;
+#include <stdio.h>
+#include <stdlib.h>
 
-struct Node {
+typedef struct Node {
     int data;
     struct Node* next;
-};
+} Node;
 
-struct Stack {
-    struct Node* top;
-};
+Node* top = NULL;
 
-void push(struct Stack* stack, int data) {
-    struct Node* newNode = new Node;
-    newNode->data = data;
-    newNode->next = stack->top;
-    stack->top = newNode;
+// Push operation (linked list)
+void push(int value) {
+    Node* newNode = (Node*)malloc(sizeof(Node));
+    newNode->data = value;
+    newNode->next = top;
+    top = newNode;
 }
 
-void printStack(struct Stack* stack) {
-    struct Node* current = stack->top;
-    while (current != NULL) {
-        cout << current->data << " ";
-        current = current->next;
+// Print stack from top to bottom
+void printStack(Node* topPtr) {
+    Node* temp = topPtr;
+    while (temp != NULL) {
+        printf("%d ", temp->data);
+        temp = temp->next;
     }
+    printf("\n");
 }
 
-void deleteEven(struct Stack* stack) {
-    while (stack->top != NULL && stack->top->data % 2 == 0) {
-        struct Node* temp = stack->top;
-        stack->top = stack->top->next;
-        delete temp;
+// Sort stack by extracting values and reinserting sorted
+void sort_stack() {
+    // Count elements
+    int count = 0;
+    Node* temp = top;
+    while (temp) {
+        count++;
+        temp = temp->next;
     }
 
-    struct Node* current = stack->top;
-    while (current != NULL && current->next != NULL) {
-        if (current->next->data % 2 == 0) {
-            struct Node* temp = current->next;
-            current->next = temp->next;
-            delete temp;
-        } else {
-            current = current->next;
+    if (count <= 1) return;
+
+    // Copy to array
+    int* arr = (int*)malloc(count * sizeof(int));
+    temp = top;
+    for (int i = 0; i < count; i++) {
+        arr[i] = temp->data;
+        temp = temp->next;
+    }
+
+    // Sort ascending
+    for (int i = 0; i < count - 1; i++) {
+        for (int j = i + 1; j < count; j++) {
+            if (arr[i] > arr[j]) {
+                int t = arr[i];
+                arr[i] = arr[j];
+                arr[j] = t;
+            }
         }
     }
 
-    printStack(stack);
-}
-
-int main() {
-    struct Stack* stack = (struct Stack*)malloc(sizeof(struct Stack));
-    stack->top = NULL;
-    int i, n, ele;
-    cin >> n;
-    for (i = 0; i < n; i++) {
-        cin >> ele;
-        push(stack, ele);
+    // Rebuild stack in ascending order (smallest will be on top)
+    top = NULL;
+    for (int i = count - 1; i >= 0; i--) {
+        push(arr[i]);
     }
-    
-    printStack(stack);
-    cout << endl;
-    
-    deleteEven(stack); 
-    
-    return 0;
+
+    free(arr);
 }
