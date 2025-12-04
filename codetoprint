@@ -1,28 +1,90 @@
 #include <iostream>
 using namespace std;
 
-int front = 0, rear = 0;
+struct Node {
+    int data;
+    Node* next;
+};
 
-int main() {
-    int N;
-    cin >> N;                 // number of elements
+struct Stack {
+    Node* top;
+};
 
-    int *queue = new int[N];  // array-based queue
+// Push at bottom to preserve order
+void push(Stack* stack, int data) {
+    Node* newNode = new Node();
+    newNode->data = data;
+    newNode->next = nullptr;
 
-    // Enqueue N integers
-    for (int i = 0; i < N; i++) {
-        int x;
-        cin >> x;
-        queue[rear++] = x;
+    // First node
+    if (stack->top == nullptr) {
+        stack->top = newNode;
+        return;
     }
 
-    // Footer snippet (already given in your screen)
-    cout << "Dequeuing elements: ";
-    while (front < rear) {
-        cout << queue[front++] << " ";
+    // Insert at end
+    Node* temp = stack->top;
+    while (temp->next != nullptr)
+        temp = temp->next;
+
+    temp->next = newNode;
+}
+
+void printStack(Stack* stack) {
+    Node* curr = stack->top;
+    if (!curr) {
+        cout << endl;
+        return;
+    }
+    while (curr) {
+        cout << curr->data << " ";
+        curr = curr->next;
     }
     cout << endl;
+}
 
-    delete[] queue;
+void deleteEven(Stack* stack) {
+    Node* curr = stack->top;
+    Node* prev = nullptr;
+
+    while (curr) {
+        if (curr->data % 2 == 0) {
+            if (prev)
+                prev->next = curr->next;
+            else
+                stack->top = curr->next;
+
+            Node* t = curr;
+            curr = curr->next;
+            delete t;
+        } else {
+            prev = curr;
+            curr = curr->next;
+        }
+    }
+}
+
+int main() {
+    Stack stack;
+    stack.top = nullptr;
+
+    int n;
+    cin >> n;
+
+    for (int i = 0; i < n; i++) {
+        int x;
+        cin >> x;
+        push(&stack, x);
+    }
+
+    // Print original
+    printStack(&stack);
+
+    // Delete evens
+    deleteEven(&stack);
+
+    // Print after deletion
+    printStack(&stack);
+
     return 0;
 }
