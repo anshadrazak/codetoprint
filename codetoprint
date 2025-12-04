@@ -1,29 +1,40 @@
-#include <iostream>
-#include <fstream>
-using namespace std;
+int queue[max], data, reply, option;
+    int front = -1, rear = -1;
 
-int main() {
-    int numberCount;
-    cin >> numberCount;
+    while (true) {
+        if (!(cin >> option))
+            break;
 
-    // Step 1: Check if file is empty
-    ifstream checkFile("numbers.txt");
-
-    bool isEmpty = (checkFile.peek() == ifstream::traits_type::eof());
-    checkFile.close();
-
-    if (isEmpty) {
-        cout << "File is empty" << endl;
-        cout << "Adding " << numberCount << " numbers starting from 100" << endl;
-
-        ofstream updateFile("numbers.txt", ios::app);
-        for (int i = 100; i < 100 + numberCount; i++) {
-            updateFile << i << endl;
+        if (option == 4) {
+            cout << "Exiting the program" << endl;
+            return 0;
         }
-        updateFile.close();
 
-        cout << "Success";
+        switch (option) {
+
+        case 1: 
+            cin >> data;
+            reply = insertq(queue, rear, data);
+            if (reply == 0)
+                cout << "Queue is full" << endl;
+            else
+                cout << data << " is inserted in the queue" << endl;
+            break;
+
+        case 2:
+            reply = delq(queue, front, rear, data);
+            if (reply == 0)
+                cout << "Queue is empty" << endl;
+            else
+                cout << "Deleted number is: " << data << endl;
+            break;
+
+        case 3:
+            display(queue, front, rear);
+            break;
+
+        default:
+            cout << "Invalid option" << endl;
+            break;
+        }
     }
-
-    return 0;
-}
