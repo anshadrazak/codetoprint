@@ -1,36 +1,28 @@
-void printMostRepeatedElement(Deque *dq) {
-    if (isEmpty(dq)) {
-        return;
+#include <iostream>
+using namespace std;
+
+int front = 0, rear = 0;
+
+int main() {
+    int N;
+    cin >> N;                 // number of elements
+
+    int *queue = new int[N];  // array-based queue
+
+    // Enqueue N integers
+    for (int i = 0; i < N; i++) {
+        int x;
+        cin >> x;
+        queue[rear++] = x;
     }
 
-    int freq[101] = {0};  // product IDs are in range 1–100
-    Node *curr = dq->front;
-
-    // count frequency of each product id
-    while (curr != NULL) {
-        if (curr->value >= 1 && curr->value <= 100)
-            freq[curr->value]++;
-        curr = curr->next;
+    // Footer snippet (already given in your screen)
+    cout << "Dequeuing elements: ";
+    while (front < rear) {
+        cout << queue[front++] << " ";
     }
+    cout << endl;
 
-    int bestVal = -1;
-    int bestCnt = -1;
-
-    // find most repeated, tie → smallest index appears first in deque
-    for (int i = 1; i <= 100; i++) {
-        if (freq[i] > bestCnt) {
-            bestCnt = freq[i];
-            bestVal = i;
-        }
-    }
-
-    cout << "Most Repeated Element is " << bestVal
-         << " with Count " << bestCnt;
+    delete[] queue;
+    return 0;
 }
-
-// in main(), after cin >> value; loop body:
-if (value == -1) break;
-enqueueRear(&dq, value);
-
-// after the loop in main():
-printMostRepeatedElement(&dq);
