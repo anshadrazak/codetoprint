@@ -1,43 +1,12 @@
-void push(int ele) {
-    if (top < MAX_SIZE - 1) {
-        mainStack[++top] = ele;
+void reverseDeque(int* dq, int n) {
+    int start = 0;
+    int end = n - 1;
 
-        // Maintain maxStack
-        if (max_top == -1 || ele >= maxStack[max_top]) {
-            maxStack[++max_top] = ele;
-        }
+    while (start < end) {
+        int temp = dq[start];
+        dq[start] = dq[end];
+        dq[end] = temp;
+        start++;
+        end--;
     }
-}
-
-void pop() {
-    if (top == -1) {
-        cout << "Stack is empty" << endl;
-        return;
-    }
-
-    int removed = mainStack[top--];
-
-    // If removed element was max, pop from maxStack
-    if (removed == maxStack[max_top]) {
-        max_top--;
-    }
-}
-
-int getMax() {
-    if (max_top == -1)
-        return -1;
-
-    return maxStack[max_top];
-}
-
-void printStack() {
-    if (top == -1) {
-        cout << "Stack is empty" << endl;
-        return;
-    }
-
-    for (int i = top; i >= 0; i--) {
-        cout << mainStack[i] << " ";
-    }
-    cout << endl;
 }
