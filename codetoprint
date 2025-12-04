@@ -1,22 +1,67 @@
-#include <iostream>
-#include <limits.h>
+#include <stdio.h>
+#include <stdlib.h>
 
-int main() {
-    // 1. Using <limits.h> to display integer limits
-    std::cout << "--- Integer Limits (using limits.h) ---" << std::endl;
-    std::cout << "Maximum value for int (INT_MAX): " << INT_MAX << std::endl;
-    std::cout << "Minimum value for int (INT_MIN): " << INT_MIN << std::endl;
+typedef struct Node {
+    int data;
+    struct Node* next;
+} Node;
 
-    // 2. Basic output and loop (using iostream)
-    std::cout << "\n--- Basic Counting (using iostream) ---" << std::endl;
-    
-    int counter = 1;
-    
-    // A simple loop structure
-    while (counter <= 5) {
-        std::cout << "Count: " << counter << std::endl;
-        counter = counter + 1;
+Node* top = NULL;
+
+int push(int value) {
+    Node* newNode = (Node*)malloc(sizeof(Node));
+    if (!newNode) return 0;   // allocation failed
+
+    newNode->data = value;
+    newNode->next = top;
+    top = newNode;
+
+    return 1;   // success
+}
+
+void printStack(Node* topPtr) {
+    Node* temp = topPtr;
+    while (temp != NULL) {
+        printf("%d ", temp->data);
+        temp = temp->next;
     }
-    
-    return 0;
+    printf("\n");
+}
+
+void sort_stack() {
+    int count = 0;
+    Node* temp = top;
+
+    while (temp) {
+        count++;
+        temp = temp->next;
+    }
+
+    if (count <= 1) return;
+
+    int* arr = (int*)malloc(sizeof(int) * count);
+    temp = top;
+    for (int i = 0; i < count; i++) {
+        arr[i] = temp->data;
+        temp = temp->next;
+    }
+
+    // sort ascending
+    for (int i = 0; i < count - 1; i++) {
+        for (int j = i + 1; j < count; j++) {
+            if (arr[i] > arr[j]) {
+                int t = arr[i];
+                arr[i] = arr[j];
+                arr[j] = t;
+            }
+        }
+    }
+
+    // rebuild stack -> smallest on top
+    top = NULL;
+    for (int i = count - 1; i >= 0; i--) {
+        push(arr[i]);
+    }
+
+    free(arr);
 }
