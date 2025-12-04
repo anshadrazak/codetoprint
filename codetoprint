@@ -1,71 +1,39 @@
-#include <iostream>
-#include <queue>
-#include <string>
-using namespace std;
+void push(struct Stack* stack, int ele) {
+    Node* newNode = new Node;
+    newNode->data = ele;
+    newNode->next = stack->top;
+    stack->top = newNode;
+}
 
-class Package {
-public:
-    string destination;
-    int priority;
-
-    Package(string dest, int pri) {
-        destination = dest;
-        priority = pri;
+void printstack(struct Stack* stack) {
+    Node* temp = stack->top;
+    while (temp != NULL) {
+        cout << temp->data << " ";
+        temp = temp->next;
     }
-};
+}
 
-// Comparator: lower priority number means higher priority
-class Compare {
-public:
-    bool operator()(Package a, Package b) {
-        return a.priority > b.priority;
-    }
-};
+void deleteeven(struct Stack* stack) {
+    Stack tempStack;
+    tempStack.top = NULL;
 
-int main() {
-    priority_queue<Package, vector<Package>, Compare> deliveryQueue;
-    int choice;
-    string destination;
-    int priority;
+    Node* curr = stack->top;
 
-    while (true) {
-        cin >> choice;
-
-        if (!cin) break; // input ends
-
-        if (choice == 1) {
-            cin.ignore();
-            getline(cin, destination);
-            cin >> priority;
-
-            deliveryQueue.push(Package(destination, priority));
-            cout << "Package added to the delivery queue." << endl;
+    // Keep only odd numbers
+    while (curr != NULL) {
+        if (curr->data % 2 != 0) {
+            push(&tempStack, curr->data);
         }
-        else if (choice == 2) {
-            if (deliveryQueue.empty()) {
-                cout << "No packages in the delivery queue." << endl;
-            } else {
-                Package top = deliveryQueue.top();
-                deliveryQueue.pop();
-                cout << "Delivered package to: " << top.destination << endl;
-            }
-        }
-        else if (choice == 3) {
-            if (deliveryQueue.empty()) {
-                cout << "No packages in the delivery queue." << endl;
-            } else {
-                cout << "Next package for delivery: " 
-                     << deliveryQueue.top().destination << endl;
-            }
-        }
-        else if (choice == 4) {
-            cout << "Exiting the application." << endl;
-            break;
-        }
-        else {
-            cout << "Invalid choice." << endl;
-        }
+        curr = curr->next;
     }
 
-    return 0;
+    // Reverse stack back to original order
+    stack->top = NULL;
+    curr = tempStack.top;
+    while (curr != NULL) {
+        push(stack, curr->data);
+        curr = curr->next;
+    }
+
+    printstack(stack);
 }
