@@ -1,35 +1,30 @@
-struct Stack {
-    int arr[10];
-    int top;
+void findMostRepeated(Deque dq) {
+    if (dq.front == NULL) return;
 
-    Stack() {
-        top = -1;
+    int freq[101] = {0};
+
+    Node* temp = dq.front;
+    int firstElement = temp->value;
+
+    while (temp != NULL) {
+        freq[temp->value]++;
+        temp = temp->next;
     }
-};
 
-void push(Stack &s, int value) {
-    if (s.top < 9) {
-        s.arr[++s.top] = value;
+    int maxCount = 1;
+    int mostRepeated = firstElement;
+
+    for (int i = 1; i <= 100; i++) {
+        if (freq[i] > maxCount) {
+            maxCount = freq[i];
+            mostRepeated = i;
+        }
     }
-}
 
-int pop(Stack &s) {
-    if (s.top == -1) return -1;
-    return s.arr[s.top--];
-}
-
-void PrintStack(Stack &s) {
-    for (int i = s.top; i >= 0; i--) {
-        cout << s.arr[i] << " ";
+    if (maxCount == 1) {
+        cout << "Most Repeated Element is " << firstElement;
+    } else {
+        cout << "Most Repeated Element is " << mostRepeated 
+             << " with Count " << maxCount;
     }
-}
-
-float get_average(Stack &s) {
-    if (s.top == -1) return -1;
-
-    float sum = 0;
-    for (int i = 0; i <= s.top; i++) {
-        sum += s.arr[i];
-    }
-    return sum / (s.top + 1);
 }
