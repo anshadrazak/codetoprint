@@ -1,53 +1,43 @@
-#include <iostream>
-using namespace std;
+void push(int ele) {
+    if (top < MAX_SIZE - 1) {
+        mainStack[++top] = ele;
 
-struct Node {
-    int element;
-    int priority;
-};
-
-int main() {
-    int n;
-    cin >> n;
-
-    Node arr[100];
-
-    // Input
-    for (int i = 0; i < n; i++) {
-        cin >> arr[i].element >> arr[i].priority;
-    }
-
-    // Sort by priority (1 = highest priority)
-    for (int i = 0; i < n - 1; i++) {
-        for (int j = i + 1; j < n; j++) {
-            if (arr[i].priority > arr[j].priority) {
-                Node temp = arr[i];
-                arr[i] = arr[j];
-                arr[j] = temp;
-            }
+        // Maintain maxStack
+        if (max_top == -1 || ele >= maxStack[max_top]) {
+            maxStack[++max_top] = ele;
         }
     }
+}
 
-    // Print initial priority queue
-    cout << "Priority Queue: ";
-    for (int i = 0; i < n; i++) {
-        cout << arr[i].element;
-        if (i != n - 1) cout << " ";
-    }
-    cout << "\n";
-
-    // Dequeue highest priority → remove first element
-    for (int i = 1; i < n; i++) {
-        arr[i - 1] = arr[i];
-    }
-    n--;
-
-    // Print after dequeue
-    cout << "Priority Queue: ";
-    for (int i = 0; i < n; i++) {
-        cout << arr[i].element;
-        if (i != n - 1) cout << " ";
+void pop() {
+    if (top == -1) {
+        cout << "Stack is empty" << endl;
+        return;
     }
 
-    return 0;
+    int removed = mainStack[top--];
+
+    // If removed element was max, pop from maxStack
+    if (removed == maxStack[max_top]) {
+        max_top--;
+    }
+}
+
+int getMax() {
+    if (max_top == -1)
+        return -1;
+
+    return maxStack[max_top];
+}
+
+void printStack() {
+    if (top == -1) {
+        cout << "Stack is empty" << endl;
+        return;
+    }
+
+    for (int i = top; i >= 0; i--) {
+        cout << mainStack[i] << " ";
+    }
+    cout << endl;
 }
