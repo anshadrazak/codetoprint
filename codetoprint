@@ -1,67 +1,22 @@
-#include <stdio.h>
-#include <stdlib.h>
+#include <iostream>
+#include <limits.h>
 
-typedef struct Node {
-    int data;
-    struct Node* next;
-} Node;
+int main() {
+    // 1. Using <limits.h> to display integer limits
+    std::cout << "--- Integer Limits (using limits.h) ---" << std::endl;
+    std::cout << "Maximum value for int (INT_MAX): " << INT_MAX << std::endl;
+    std::cout << "Minimum value for int (INT_MIN): " << INT_MIN << std::endl;
 
-Node* top = NULL;
-
-// Push operation (linked list)
-void push(int value) {
-    Node* newNode = (Node*)malloc(sizeof(Node));
-    newNode->data = value;
-    newNode->next = top;
-    top = newNode;
-}
-
-// Print stack from top to bottom
-void printStack(Node* topPtr) {
-    Node* temp = topPtr;
-    while (temp != NULL) {
-        printf("%d ", temp->data);
-        temp = temp->next;
+    // 2. Basic output and loop (using iostream)
+    std::cout << "\n--- Basic Counting (using iostream) ---" << std::endl;
+    
+    int counter = 1;
+    
+    // A simple loop structure
+    while (counter <= 5) {
+        std::cout << "Count: " << counter << std::endl;
+        counter = counter + 1;
     }
-    printf("\n");
-}
-
-// Sort stack by extracting values and reinserting sorted
-void sort_stack() {
-    // Count elements
-    int count = 0;
-    Node* temp = top;
-    while (temp) {
-        count++;
-        temp = temp->next;
-    }
-
-    if (count <= 1) return;
-
-    // Copy to array
-    int* arr = (int*)malloc(count * sizeof(int));
-    temp = top;
-    for (int i = 0; i < count; i++) {
-        arr[i] = temp->data;
-        temp = temp->next;
-    }
-
-    // Sort ascending
-    for (int i = 0; i < count - 1; i++) {
-        for (int j = i + 1; j < count; j++) {
-            if (arr[i] > arr[j]) {
-                int t = arr[i];
-                arr[i] = arr[j];
-                arr[j] = t;
-            }
-        }
-    }
-
-    // Rebuild stack in ascending order (smallest will be on top)
-    top = NULL;
-    for (int i = count - 1; i >= 0; i--) {
-        push(arr[i]);
-    }
-
-    free(arr);
+    
+    return 0;
 }
