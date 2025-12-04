@@ -1,39 +1,35 @@
-void push(struct Stack* stack, int ele) {
-    Node* newNode = new Node;
-    newNode->data = ele;
-    newNode->next = stack->top;
-    stack->top = newNode;
-}
+struct Stack {
+    int arr[10];
+    int top;
 
-void printstack(struct Stack* stack) {
-    Node* temp = stack->top;
-    while (temp != NULL) {
-        cout << temp->data << " ";
-        temp = temp->next;
+    Stack() {
+        top = -1;
+    }
+};
+
+void push(Stack &s, int value) {
+    if (s.top < 9) {
+        s.arr[++s.top] = value;
     }
 }
 
-void deleteeven(struct Stack* stack) {
-    Stack tempStack;
-    tempStack.top = NULL;
+int pop(Stack &s) {
+    if (s.top == -1) return -1;
+    return s.arr[s.top--];
+}
 
-    Node* curr = stack->top;
-
-    // Keep only odd numbers
-    while (curr != NULL) {
-        if (curr->data % 2 != 0) {
-            push(&tempStack, curr->data);
-        }
-        curr = curr->next;
+void PrintStack(Stack &s) {
+    for (int i = s.top; i >= 0; i--) {
+        cout << s.arr[i] << " ";
     }
+}
 
-    // Reverse stack back to original order
-    stack->top = NULL;
-    curr = tempStack.top;
-    while (curr != NULL) {
-        push(stack, curr->data);
-        curr = curr->next;
+float get_average(Stack &s) {
+    if (s.top == -1) return -1;
+
+    float sum = 0;
+    for (int i = 0; i <= s.top; i++) {
+        sum += s.arr[i];
     }
-
-    printstack(stack);
+    return sum / (s.top + 1);
 }
