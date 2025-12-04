@@ -1,30 +1,36 @@
-void findMostRepeated(Deque dq) {
-    if (dq.front == NULL) return;
-
-    int freq[101] = {0};
-
-    Node* temp = dq.front;
-    int firstElement = temp->value;
-
-    while (temp != NULL) {
-        freq[temp->value]++;
-        temp = temp->next;
+void printMostRepeatedElement(Deque *dq) {
+    if (isEmpty(dq)) {
+        return;
     }
 
-    int maxCount = 1;
-    int mostRepeated = firstElement;
+    int freq[101] = {0};  // product IDs are in range 1–100
+    Node *curr = dq->front;
 
+    // count frequency of each product id
+    while (curr != NULL) {
+        if (curr->value >= 1 && curr->value <= 100)
+            freq[curr->value]++;
+        curr = curr->next;
+    }
+
+    int bestVal = -1;
+    int bestCnt = -1;
+
+    // find most repeated, tie → smallest index appears first in deque
     for (int i = 1; i <= 100; i++) {
-        if (freq[i] > maxCount) {
-            maxCount = freq[i];
-            mostRepeated = i;
+        if (freq[i] > bestCnt) {
+            bestCnt = freq[i];
+            bestVal = i;
         }
     }
 
-    if (maxCount == 1) {
-        cout << "Most Repeated Element is " << firstElement;
-    } else {
-        cout << "Most Repeated Element is " << mostRepeated 
-             << " with Count " << maxCount;
-    }
+    cout << "Most Repeated Element is " << bestVal
+         << " with Count " << bestCnt;
 }
+
+// in main(), after cin >> value; loop body:
+if (value == -1) break;
+enqueueRear(&dq, value);
+
+// after the loop in main():
+printMostRepeatedElement(&dq);
